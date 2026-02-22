@@ -1,0 +1,1669 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Descubre tu Potencial</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+<style>
+/* ─── RESET & BASE ─────────────────────────────── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:#11283C;color:#EFEFEF;font-family:'DM Sans',sans-serif;min-height:100vh;overflow-x:hidden}
+button{cursor:pointer;border:none;background:none;font-family:inherit}
+input,textarea{font-family:inherit}
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.12);border-radius:10px}
+
+/* ─── CSS VARIABLES ───────────────────────────── */
+:root{
+  --navy:#11283C;--ocean:#205375;--snow:#EFEFEF;
+  --violet:#170071;--flame:#F6680E;--forest:#115D33;--emerald:#228B22;
+  --white:#fff;--border:rgba(239,239,239,0.1);--card:rgba(255,255,255,0.04);
+}
+
+/* ─── FONTS ────────────────────────────────────── */
+.font-display{font-family:'Playfair Display',serif}
+.font-mono{font-family:'Space Mono',monospace}
+
+/* ─── ANIMATIONS ───────────────────────────────── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+@keyframes slideIn{from{opacity:0;transform:translateX(-20px)}to{opacity:1;transform:translateX(0)}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+@keyframes pulse2{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.7)}}
+@keyframes scrollDot{0%{transform:translateY(0);opacity:1}100%{transform:translateY(12px);opacity:0}}
+@keyframes ping{0%{transform:translate(-50%,-50%) scale(.8);opacity:.6}100%{transform:translate(-50%,-50%) scale(1.4);opacity:0}}
+@keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
+@keyframes revealBar{from{width:0}to{width:68%}}
+
+.animate-fade-up{animation:fadeUp .5s ease both}
+.animate-slide-in{animation:slideIn .4s ease both}
+.animate-pulse2{animation:pulse2 1.5s ease infinite}
+.animate-float{animation:float 3s ease-in-out infinite}
+.animate-float-delayed{animation:float 3s ease-in-out 1.5s infinite}
+
+/* ─── SCROLL REVEAL ────────────────────────────── */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.reveal-left{opacity:0;transform:translateX(-32px);transition:opacity .8s ease,transform .8s ease}
+.reveal-left.visible{opacity:1;transform:translateX(0)}
+
+/* ─── VIEWS ────────────────────────────────────── */
+#landing{display:block}
+#app{display:none}
+
+/* ─── LANDING: NAVBAR ──────────────────────────── */
+.lnav{position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 40px;display:flex;align-items:center;justify-content:space-between;transition:all .4s ease}
+.lnav.scrolled{background:rgba(17,40,60,.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);box-shadow:0 4px 30px rgba(0,0,0,.3)}
+.logo-wrap{display:flex;align-items:center;gap:10px;cursor:pointer;text-decoration:none}
+.logo-icon{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-weight:900;color:#fff;font-size:16px;background:linear-gradient(135deg,var(--flame),var(--violet))}
+.logo-text{font-family:'Playfair Display',serif;font-weight:900;font-size:18px;color:#fff;line-height:1}
+.logo-text span{color:var(--flame);font-style:italic}
+.lnav-links{display:flex;align-items:center;gap:32px}
+.lnav-link{position:relative;font-size:14px;font-weight:500;color:rgba(239,239,239,.6);background:none;transition:color .2s;padding:4px 0}
+.lnav-link::after{content:'';position:absolute;bottom:-2px;left:0;width:0;height:2px;background:var(--flame);transition:width .3s ease}
+.lnav-link:hover{color:#fff}
+.lnav-link:hover::after{width:100%}
+.lnav-right{display:flex;align-items:center;gap:12px}
+.btn-ghost{font-size:14px;font-weight:500;color:rgba(239,239,239,.6);transition:color .2s}
+.btn-ghost:hover{color:#fff}
+.btn-primary{position:relative;overflow:hidden;padding:10px 22px;border-radius:12px;font-size:14px;font-weight:600;color:#fff;background:linear-gradient(135deg,var(--flame),#c45200);transition:all .3s}
+.btn-primary:hover{transform:scale(1.05);box-shadow:0 8px 30px rgba(246,104,14,.4)}
+.hamburger{display:none;flex-direction:column;gap:5px;padding:4px}
+.hamburger span{display:block;width:22px;height:2px;background:#fff;border-radius:2px;transition:all .3s}
+.mobile-menu{display:none;position:fixed;top:64px;left:0;right:0;z-index:99;padding:20px 24px;flex-direction:column;gap:12px;border-bottom:1px solid var(--border)}
+.mobile-menu.open{display:flex}
+@media(max-width:768px){
+  .lnav{padding:14px 20px}
+  .lnav-links,.lnav-right{display:none}
+  .hamburger{display:flex}
+  .mobile-menu{background:rgba(17,40,60,.98)}
+}
+
+/* ─── LANDING: HERO ────────────────────────────── */
+.hero{position:relative;min-height:100vh;display:flex;flex-direction:column;justify-content:center;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:linear-gradient(135deg,#0a1a28 0%,#11283C 40%,#170071 100%)}
+.hero-orb{position:absolute;border-radius:50%;filter:blur(80px);pointer-events:none;transition:transform .7s ease}
+.hero-orb-1{width:600px;height:600px;top:-10%;right:-5%;background:radial-gradient(circle,rgba(246,104,14,.28) 0%,transparent 70%)}
+.hero-orb-2{width:500px;height:500px;bottom:-10%;left:-5%;background:radial-gradient(circle,rgba(23,0,113,.25) 0%,transparent 70%)}
+.hero-orb-3{width:300px;height:300px;top:40%;left:30%;background:radial-gradient(circle,rgba(34,139,34,.18) 0%,transparent 70%)}
+.hero-grid{position:absolute;inset:0;opacity:.03;background-image:linear-gradient(rgba(255,255,255,1) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,1) 1px,transparent 1px);background-size:60px 60px;pointer-events:none}
+.hero-content{position:relative;z-index:10;max-width:1280px;margin:0 auto;padding:120px 40px 80px;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;padding:8px 16px;border-radius:999px;border:1px solid rgba(246,104,14,.3);background:rgba(246,104,14,.08);margin-bottom:28px;opacity:0;animation:fadeUp .6s .1s ease forwards}
+.hero-badge-dot{width:8px;height:8px;border-radius:50%;background:var(--flame);animation:pulse2 1.5s ease infinite}
+.hero-badge span{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--flame)}
+.hero-h1{font-family:'Playfair Display',serif;font-size:clamp(42px,6vw,72px);font-weight:900;color:#fff;line-height:1.05;margin-bottom:24px;opacity:0;animation:fadeUp .6s .2s ease forwards}
+.hero-h1 em{color:var(--flame);font-style:italic}
+.hero-underline{position:relative;display:inline-block}
+.hero-underline svg{position:absolute;bottom:-8px;left:0;width:100%}
+.hero-p{font-size:17px;color:rgba(239,239,239,.6);line-height:1.7;max-width:480px;margin-bottom:36px;opacity:0;animation:fadeUp .6s .3s ease forwards}
+.hero-p strong{color:rgba(239,239,239,.9)}
+.hero-ctas{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:52px;opacity:0;animation:fadeUp .6s .4s ease forwards}
+.btn-hero{display:inline-flex;align-items:center;gap:8px;padding:16px 32px;border-radius:16px;font-size:16px;font-weight:700;color:#fff;background:linear-gradient(135deg,var(--flame),#c45200);transition:all .3s;box-shadow:0 8px 30px rgba(246,104,14,.3)}
+.btn-hero:hover{transform:scale(1.05);box-shadow:0 16px 50px rgba(246,104,14,.5)}
+.btn-hero span{transition:transform .2s}
+.btn-hero:hover span{transform:translateX(4px)}
+.btn-outline{display:inline-flex;align-items:center;gap:10px;padding:16px 32px;border-radius:16px;font-size:16px;font-weight:700;color:rgba(239,239,239,.7);border:1px solid rgba(255,255,255,.15);transition:all .3s}
+.btn-outline:hover{border-color:rgba(255,255,255,.35);color:#fff}
+.btn-outline-icon{width:32px;height:32px;border-radius:50%;border:1px solid rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:12px;transition:all .3s}
+.btn-outline:hover .btn-outline-icon{border-color:rgba(246,104,14,.5);background:rgba(246,104,14,.1)}
+.hero-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;opacity:0;animation:fadeUp .6s .5s ease forwards}
+.hero-stat-val{font-family:'Playfair Display',serif;font-size:26px;font-weight:900;color:#fff}
+.hero-stat-lbl{font-family:'Space Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:2px;color:rgba(239,239,239,.35);margin-top:2px}
+
+/* Mockup */
+.hero-mockup{position:relative;opacity:0;animation:fadeUp .8s .3s ease forwards}
+.mockup-card{border-radius:24px;overflow:hidden;border:1px solid rgba(255,255,255,.1);box-shadow:0 40px 100px rgba(0,0,0,.5);background:rgba(32,83,117,.25);backdrop-filter:blur(20px)}
+.mockup-bar{display:flex;align-items:center;gap:8px;padding:12px 20px;border-bottom:1px solid rgba(255,255,255,.08)}
+.mockup-dots{display:flex;gap:6px}
+.mockup-dot{width:12px;height:12px;border-radius:50%}
+.mockup-url{flex:1;margin:0 16px;height:24px;border-radius:8px;background:rgba(255,255,255,.06);display:flex;align-items:center;padding:0 12px}
+.mockup-url span{font-family:'Space Mono',monospace;font-size:9px;color:rgba(239,239,239,.3)}
+.mockup-body{padding:20px;display:flex;flex-direction:column;gap:12px}
+.mockup-greeting{display:flex;align-items:center;gap:12px}
+.mockup-avatar{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:16px;color:#fff;background:linear-gradient(135deg,var(--flame),var(--violet));flex-shrink:0}
+.mockup-name{font-size:14px;font-weight:600;color:#fff}
+.mockup-role{font-family:'Space Mono',monospace;font-size:9px;color:rgba(239,239,239,.35);margin-top:2px}
+.mockup-pts{margin-left:auto;padding:4px 12px;border-radius:999px;font-family:'Space Mono',monospace;font-size:11px;font-weight:700;color:#fff;background:linear-gradient(135deg,var(--flame),#c45200)}
+.mockup-prog{border-radius:16px;padding:16px;border:1px solid rgba(255,255,255,.08);background:var(--card)}
+.mockup-prog-header{display:flex;justify-content:space-between;margin-bottom:10px}
+.mockup-prog-label{font-family:'Space Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:2px;color:rgba(239,239,239,.35)}
+.mockup-prog-num{font-family:'Playfair Display',serif;font-size:22px;font-weight:900;color:#fff}
+.mockup-bar-track{height:8px;border-radius:8px;background:rgba(255,255,255,.08);overflow:hidden}
+.mockup-bar-fill{height:100%;border-radius:8px;background:linear-gradient(90deg,var(--flame),#ff9a4d);width:68%;animation:revealBar 1.5s 1s ease both}
+.mockup-mini-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.mockup-mini-stat{border-radius:12px;padding:12px;text-align:center;border:1px solid rgba(255,255,255,.08);background:var(--card)}
+.mockup-mini-val{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:#fff}
+.mockup-mini-lbl{font-family:'Space Mono',monospace;font-size:8px;text-transform:uppercase;color:rgba(239,239,239,.35);margin-top:2px}
+.mockup-workshop{border-radius:14px;padding:12px;border:1px solid rgba(246,104,14,.25);background:rgba(246,104,14,.08);display:flex;align-items:center;gap:12px}
+.mockup-wday{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:var(--flame);line-height:1;text-align:center}
+.mockup-wmonth{font-family:'Space Mono',monospace;font-size:8px;color:rgba(246,104,14,.6);text-transform:uppercase}
+.mockup-wname{font-size:12px;font-weight:600;color:#fff}
+.mockup-winfo{font-family:'Space Mono',monospace;font-size:9px;color:rgba(239,239,239,.35);margin-top:2px}
+.mockup-wbtn{margin-left:auto;padding:6px 14px;border-radius:8px;font-size:10px;font-weight:700;color:#fff;background:var(--flame);flex-shrink:0;transition:transform .2s}
+.mockup-wbtn:hover{transform:scale(1.05)}
+.float-badge{position:absolute;border-radius:16px;padding:12px 16px;border:1px solid rgba(255,255,255,.1);box-shadow:0 20px 60px rgba(0,0,0,.4);backdrop-filter:blur(12px)}
+.float-badge-title{font-size:12px;font-weight:600;color:#fff}
+.float-badge-sub{font-family:'Space Mono',monospace;font-size:9px;color:rgba(239,239,239,.5);margin-top:3px}
+.badge-tl{top:-16px;left:-16px;background:rgba(34,139,34,.9);animation:float 3s ease-in-out infinite}
+.badge-br{bottom:-16px;right:-16px;background:rgba(17,40,60,.95);animation:float 3s 1.5s ease-in-out infinite}
+
+/* Scroll indicator */
+.scroll-indicator{position:absolute;bottom:32px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;opacity:0;animation:fadeUp .6s 1.2s ease forwards}
+.scroll-indicator p{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:rgba(239,239,239,.25)}
+.scroll-wheel{width:20px;height:32px;border-radius:999px;border:1px solid rgba(255,255,255,.2);display:flex;justify-content:center;padding-top:6px}
+.scroll-ball{width:4px;height:6px;border-radius:2px;background:rgba(239,239,239,.4);animation:scrollDot 1.5s ease-in-out infinite}
+
+@media(max-width:900px){
+  .hero-content{grid-template-columns:1fr;padding:100px 20px 60px}
+  .hero-mockup{display:none}
+  .hero-stats{grid-template-columns:repeat(2,1fr)}
+}
+
+/* ─── SECTION BASE ─────────────────────────────── */
+.section{padding:100px 40px;max-width:1280px;margin:0 auto}
+.section-wrapper{position:relative;overflow:hidden}
+.section-label{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--flame);text-align:center;margin-bottom:14px;display:block}
+.section-title{font-family:'Playfair Display',serif;font-size:clamp(32px,5vw,52px);font-weight:900;color:#fff;text-align:center;line-height:1.1;margin-bottom:20px}
+.section-title em{color:var(--flame);font-style:italic}
+.section-sub{text-align:center;font-size:15px;color:rgba(239,239,239,.5);max-width:520px;margin:0 auto 60px;line-height:1.7}
+@media(max-width:600px){.section{padding:70px 20px}}
+
+/* ─── ABOUT ───────────────────────────────────── */
+.about-wrapper{background:linear-gradient(180deg,#0d1f2e 0%,#11283C 100%)}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;margin-bottom:60px}
+.about-img{position:relative;border-radius:28px;overflow:hidden;border:1px solid rgba(255,255,255,.1);cursor:pointer;height:340px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:24px;background:linear-gradient(135deg,rgba(32,83,117,.4),rgba(23,0,113,.4))}
+.about-img::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(246,104,14,.06),rgba(23,0,113,.18))}
+.about-avatars{position:relative;z-index:1;display:flex;gap:16px}
+.about-av{width:56px;height:56px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:20px;color:#fff;box-shadow:0 8px 30px rgba(0,0,0,.3);transition:transform .3s}
+.about-av:hover{transform:translateY(-8px)}
+.about-img-text{position:relative;z-index:1;text-align:center}
+.about-img-text p{font-family:'Playfair Display',serif;font-size:24px;font-weight:900;color:#fff}
+.about-img-text span{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(239,239,239,.35);margin-top:4px;display:block}
+.about-hover{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .4s;background:rgba(17,40,60,.85);backdrop-filter:blur(6px);z-index:2}
+.about-img:hover .about-hover{opacity:1}
+.about-hover-text{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:#fff;text-align:center;padding:0 32px}
+.about-hover-sub{font-size:13px;color:rgba(239,239,239,.5);margin-top:8px;font-style:normal}
+.stat-bubble{position:absolute;bottom:-24px;right:-24px;border-radius:20px;padding:16px 20px;border:1px solid rgba(255,255,255,.1);box-shadow:0 20px 60px rgba(0,0,0,.3);background:var(--flame)}
+.stat-bubble-val{font-family:'Playfair Display',serif;font-size:32px;font-weight:900;color:#fff}
+.stat-bubble-lbl{font-family:'Space Mono',monospace;font-size:9px;color:rgba(255,255,255,.7);text-transform:uppercase;letter-spacing:1px}
+.about-text{display:flex;flex-direction:column;gap:20px}
+.about-text p{font-size:15px;color:rgba(239,239,239,.6);line-height:1.75}
+.about-text p strong{color:rgba(239,239,239,.9)}
+.about-inline-stats{display:flex;gap:28px;padding-top:8px;flex-wrap:wrap}
+.about-inline-stat-val{font-family:'Playfair Display',serif;font-size:26px;font-weight:900;color:var(--flame)}
+.about-inline-stat-lbl{font-family:'Space Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:2px;color:rgba(239,239,239,.35);margin-top:2px}
+.values-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.value-card{padding:24px;border-radius:20px;border:1px solid rgba(255,255,255,.08);background:var(--card);transition:all .3s;cursor:default}
+.value-card:hover{border-color:rgba(246,104,14,.25);transform:translateY(-4px)}
+.value-icon{font-size:28px;margin-bottom:16px}
+.value-title{font-family:'Playfair Display',serif;font-size:15px;font-weight:700;color:#fff;margin-bottom:8px;transition:color .2s}
+.value-card:hover .value-title{color:var(--flame)}
+.value-desc{font-size:13px;color:rgba(239,239,239,.5);line-height:1.6}
+@media(max-width:900px){.about-grid{grid-template-columns:1fr}.about-img{display:none}}
+@media(max-width:700px){.values-grid{grid-template-columns:repeat(2,1fr)}}
+
+/* ─── SERVICES ─────────────────────────────────── */
+.services-wrapper{background:#11283C;position:relative}
+.services-wrapper::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(246,104,14,.4),transparent)}
+.services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.service-card{position:relative;padding:28px;border-radius:24px;border:1px solid rgba(255,255,255,.08);cursor:default;transition:all .3s;overflow:hidden;height:100%}
+.service-card:hover{transform:translateY(-6px);box-shadow:0 20px 60px rgba(0,0,0,.3)}
+.service-card-bg{position:absolute;inset:0;opacity:.6;transition:opacity .3s}
+.service-card:hover .service-card-bg{opacity:.9}
+.service-badge{position:absolute;top:16px;right:16px;padding:4px 12px;border-radius:999px;font-family:'Space Mono',monospace;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1px;background:linear-gradient(135deg,var(--flame),#c45200);color:#fff}
+.service-content{position:relative;z-index:1}
+.service-icon{font-size:36px;margin-bottom:20px;display:block}
+.service-title{font-family:'Playfair Display',serif;font-size:19px;font-weight:700;color:#fff;margin-bottom:12px;transition:color .2s}
+.service-desc{font-size:13px;color:rgba(239,239,239,.55);line-height:1.65;margin-bottom:20px}
+.service-features{display:flex;flex-direction:column;gap:8px}
+.service-feature{display:flex;align-items:center;gap:8px;font-size:12px;color:rgba(239,239,239,.5)}
+.service-feature-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+@media(max-width:900px){.services-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){.services-grid{grid-template-columns:1fr}}
+
+/* ─── PROCESS ──────────────────────────────────── */
+.process-wrapper{background:linear-gradient(180deg,#0d1f2e 0%,#11283C 50%,#0d1f2e 100%);position:relative}
+.process-glow{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:800px;height:400px;border-radius:50%;filter:blur(100px);background:radial-gradient(ellipse,rgba(23,0,113,.12),transparent);pointer-events:none}
+.process-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:32px;position:relative}
+.process-line{position:absolute;top:56px;left:12.5%;right:12.5%;height:1px;background:linear-gradient(90deg,transparent,rgba(246,104,14,.3),rgba(246,104,14,.3),transparent);pointer-events:none}
+.process-step{display:flex;flex-direction:column;align-items:center;text-align:center;cursor:default}
+.process-circle{width:112px;height:112px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;margin-bottom:24px;border:2px solid;position:relative;transition:transform .3s}
+.process-step:hover .process-circle{transform:scale(1.1)}
+.process-glow-inner{position:absolute;inset:0;border-radius:50%;opacity:0;filter:blur(20px);transition:opacity .3s}
+.process-step:hover .process-glow-inner{opacity:1}
+.process-icon{font-size:28px;margin-bottom:4px}
+.process-num{font-family:'Space Mono',monospace;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1px}
+.process-title{font-family:'Playfair Display',serif;font-size:16px;font-weight:700;color:#fff;margin-bottom:12px;transition:color .3s}
+.process-step:hover .process-title{color:var(--flame)}
+.process-desc{font-size:13px;color:rgba(239,239,239,.5);line-height:1.6;margin-bottom:16px}
+.process-pill{font-family:'Space Mono',monospace;font-size:9px;padding:4px 12px;border-radius:999px;border:1px solid;display:inline-block}
+.process-cta-wrap{text-align:center;margin-top:56px}
+.process-cta-chip{display:inline-flex;align-items:center;gap:10px;padding:12px 24px;border-radius:16px;border:1px solid rgba(246,104,14,.3);background:rgba(246,104,14,.08)}
+.process-cta-chip span{font-family:'Space Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:3px;color:var(--flame)}
+@media(max-width:900px){.process-steps{grid-template-columns:repeat(2,1fr)}.process-line{display:none}}
+@media(max-width:500px){.process-steps{grid-template-columns:1fr}}
+
+/* ─── PORTFOLIO ────────────────────────────────── */
+.portfolio-wrapper{background:#11283C;position:relative}
+.portfolio-wrapper::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.08),transparent)}
+.filters{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:48px}
+.filter-btn{padding:7px 18px;border-radius:999px;font-size:13px;font-weight:500;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);color:rgba(239,239,239,.5);transition:all .2s}
+.filter-btn:hover{color:#fff;border-color:rgba(255,255,255,.2)}
+.filter-btn.active{background:var(--flame);border-color:var(--flame);color:#fff;box-shadow:0 4px 20px rgba(246,104,14,.4)}
+.portfolio-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.port-card{position:relative;border-radius:24px;overflow:hidden;border:1px solid rgba(255,255,255,.08);cursor:pointer;height:280px;transition:all .4s}
+.port-card:hover{transform:translateY(-6px);box-shadow:0 30px 80px rgba(0,0,0,.4);border-color:rgba(255,255,255,.2)}
+.port-bg{position:absolute;inset:0;transition:transform .5s ease}
+.port-card:hover .port-bg{transform:scale(1.06)}
+.port-content{position:absolute;inset:0;padding:28px;display:flex;flex-direction:column;justify-content:space-between;z-index:1}
+.port-top{display:flex;align-items:flex-start;justify-content:space-between}
+.port-emoji{font-size:44px;line-height:1}
+.port-tag{font-family:'Space Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:1px;padding:4px 12px;border-radius:999px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.08);color:rgba(239,239,239,.7)}
+.port-bottom{}
+.port-cat{font-family:'Space Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:2px;margin-bottom:6px;display:block}
+.port-title{font-family:'Playfair Display',serif;font-size:19px;font-weight:700;color:#fff;line-height:1.2;margin-bottom:4px}
+.port-desc{font-size:11px;color:rgba(239,239,239,.45)}
+.port-overlay{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:28px;opacity:0;transition:opacity .35s;background:rgba(17,40,60,.92);backdrop-filter:blur(8px);z-index:2}
+.port-card:hover .port-overlay{opacity:1}
+.port-overlay-emoji{font-size:40px;margin-bottom:14px}
+.port-overlay-title{font-family:'Playfair Display',serif;font-size:19px;font-weight:700;color:#fff;margin-bottom:10px}
+.port-overlay-result{font-size:13px;font-weight:600;margin-bottom:20px}
+.port-overlay-btn{padding:10px 24px;border-radius:12px;font-size:13px;font-weight:700;color:#fff;transition:transform .2s}
+.port-overlay-btn:hover{transform:scale(1.05)}
+@media(max-width:900px){.portfolio-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){.portfolio-grid{grid-template-columns:1fr}}
+
+/* ─── TESTIMONIALS ─────────────────────────────── */
+.test-wrapper{background:linear-gradient(180deg,#0d1f2e 0%,#11283C 100%);position:relative;overflow:hidden}
+.test-glow{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:700px;height:700px;border-radius:50%;filter:blur(100px);background:radial-gradient(circle,rgba(246,104,14,.08),transparent);pointer-events:none;transition:background 1s}
+.test-card{max-width:720px;margin:0 auto 48px;padding:40px;border-radius:28px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);backdrop-filter:blur(20px);position:relative}
+.test-quote-mark{position:absolute;top:-20px;left:36px;font-family:'Playfair Display',serif;font-size:100px;line-height:1;color:rgba(246,104,14,.15);user-select:none}
+.test-stars{display:flex;gap:4px;margin-bottom:24px}
+.test-star{color:var(--flame);font-size:18px}
+.test-text{font-family:'Playfair Display',serif;font-size:clamp(17px,2.5vw,22px);color:#fff;line-height:1.55;margin-bottom:28px}
+.test-author{display:flex;align-items:center;gap:16px}
+.test-avatar{width:52px;height:52px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:20px;color:#fff;flex-shrink:0}
+.test-author-name{font-size:15px;font-weight:600;color:#fff}
+.test-author-info{font-family:'Space Mono',monospace;font-size:9px;color:rgba(239,239,239,.4);margin-top:3px}
+.test-author-info em{color:var(--flame);font-style:normal}
+.test-dots{display:flex;justify-content:center;gap:8px;margin-bottom:48px}
+.test-dot{border-radius:999px;height:8px;background:rgba(255,255,255,.2);transition:all .3s;cursor:pointer}
+.test-dot.active{width:32px;background:var(--flame)}
+.test-dot:not(.active){width:8px}
+.test-dot:not(.active):hover{background:rgba(255,255,255,.4)}
+.test-avatars-row{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-bottom:64px}
+.test-av-btn{width:48px;height:48px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:18px;color:#fff;transition:all .3s;cursor:pointer}
+.test-av-btn.active{transform:scale(1.15);box-shadow:0 0 0 2px var(--flame),0 0 0 4px transparent}
+.test-av-btn:not(.active){opacity:.45}
+.test-av-btn:not(.active):hover{opacity:.75}
+.test-stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.test-stat{padding:20px;border-radius:20px;border:1px solid rgba(255,255,255,.08);background:var(--card);text-align:center}
+.test-stat-icon{font-size:24px;margin-bottom:8px;display:block}
+.test-stat-val{font-family:'Playfair Display',serif;font-size:28px;font-weight:900;color:var(--flame)}
+.test-stat-lbl{font-family:'Space Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:1.5px;color:rgba(239,239,239,.35);margin-top:4px}
+@media(max-width:600px){.test-stat-grid{grid-template-columns:repeat(2,1fr)}}
+
+/* ─── CTA ──────────────────────────────────────── */
+.cta-wrapper{background:#0a1a28;position:relative;overflow:hidden}
+.cta-radial{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 50%,rgba(246,104,14,.12) 0%,transparent 65%);pointer-events:none}
+.cta-ring{position:absolute;top:50%;left:50%;border-radius:50%;border:1px solid rgba(246,104,14,.1)}
+.cta-content{max-width:720px;margin:0 auto;text-align:center;position:relative;z-index:1}
+.cta-badge{display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:999px;border:1px solid rgba(246,104,14,.3);background:rgba(246,104,14,.08);margin-bottom:32px}
+.cta-badge-dot{width:8px;height:8px;border-radius:50%;background:var(--flame);animation:pulse2 1.5s ease infinite}
+.cta-badge span{font-family:'Space Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:3px;color:var(--flame)}
+.cta-title{font-family:'Playfair Display',serif;font-size:clamp(44px,8vw,80px);font-weight:900;color:#fff;line-height:1.05;margin-bottom:24px}
+.cta-title em{color:var(--flame);font-style:italic}
+.cta-sub{font-size:17px;color:rgba(239,239,239,.55);line-height:1.7;margin-bottom:40px}
+.cta-btns{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:40px}
+.btn-cta-main{position:relative;overflow:hidden;padding:20px 40px;border-radius:20px;font-size:17px;font-weight:700;color:#fff;background:linear-gradient(135deg,var(--flame),#c45200);transition:all .3s;box-shadow:0 20px 60px rgba(246,104,14,.4)}
+.btn-cta-main:hover{transform:scale(1.05);box-shadow:0 30px 80px rgba(246,104,14,.6)}
+.btn-cta-sec{padding:20px 40px;border-radius:20px;font-size:17px;font-weight:700;color:rgba(239,239,239,.7);border:1px solid rgba(255,255,255,.15);transition:all .3s}
+.btn-cta-sec:hover{border-color:rgba(255,255,255,.35);color:#fff}
+.cta-perks{display:flex;flex-wrap:wrap;justify-content:center;gap:20px}
+.cta-perk{font-family:'Space Mono',monospace;font-size:10px;color:rgba(239,239,239,.35)}
+
+/* ─── FOOTER ───────────────────────────────────── */
+.footer-wrapper{background:#080f17;border-top:1px solid rgba(255,255,255,.06);position:relative}
+.footer-glow-line{position:absolute;top:0;left:25%;right:25%;height:1px;background:linear-gradient(90deg,transparent,rgba(246,104,14,.5),transparent)}
+.footer-main{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr 1fr;gap:40px;padding-bottom:48px;border-bottom:1px solid rgba(255,255,255,.08);margin-bottom:0}
+.footer-brand p{font-size:13px;color:rgba(239,239,239,.4);line-height:1.7;margin-bottom:24px}
+.footer-socials{display:flex;gap:8px;flex-wrap:wrap}
+.footer-social{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:14px;border:1px solid rgba(255,255,255,.08);transition:all .2s}
+.footer-social:hover{border-color:rgba(246,104,14,.4);background:rgba(246,104,14,.1)}
+.footer-col-title{font-family:'Space Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:2.5px;color:rgba(239,239,239,.3);margin-bottom:16px}
+.footer-col ul{display:flex;flex-direction:column;gap:10px;list-style:none}
+.footer-col ul li button{font-size:13px;color:rgba(239,239,239,.5);transition:color .2s;text-align:left}
+.footer-col ul li button:hover{color:#fff}
+.footer-newsletter{padding:32px 0;border-bottom:1px solid rgba(255,255,255,.08)}
+.footer-newsletter-inner{display:flex;align-items:center;gap:32px;flex-wrap:wrap}
+.footer-newsletter-text h4{font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:#fff;margin-bottom:4px}
+.footer-newsletter-text p{font-size:12px;color:rgba(239,239,239,.4)}
+.footer-newsletter-form{display:flex;gap:8px;flex:1;min-width:280px}
+.footer-newsletter-form input{flex:1;padding:10px 16px;border-radius:12px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.05);font-size:13px;color:rgba(239,239,239,.7);outline:none;transition:border-color .2s}
+.footer-newsletter-form input:focus{border-color:rgba(246,104,14,.4)}
+.footer-newsletter-form button{padding:10px 20px;border-radius:12px;font-size:13px;font-weight:600;color:#fff;background:linear-gradient(135deg,var(--flame),#c45200);transition:transform .2s;white-space:nowrap}
+.footer-newsletter-form button:hover{transform:scale(1.05)}
+.footer-bottom{display:flex;align-items:center;justify-content:space-between;padding-top:28px;flex-wrap:gap;gap:12px;flex-wrap:wrap}
+.footer-bottom p,.footer-bottom span{font-family:'Space Mono',monospace;font-size:9px;color:rgba(239,239,239,.25)}
+.footer-enter-btn{font-family:'Space Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:2px;color:var(--flame);transition:opacity .2s}
+.footer-enter-btn:hover{opacity:.7}
+@media(max-width:900px){.footer-main{grid-template-columns:1fr 1fr;gap:28px}.footer-brand{grid-column:1/-1}}
+@media(max-width:500px){.footer-main{grid-template-columns:1fr}.footer-brand{grid-column:auto}}
+
+/* ─── APP LAYOUT ───────────────────────────────── */
+.app-layout{display:flex;height:100vh;overflow:hidden}
+.sidebar{width:240px;flex-shrink:0;display:flex;flex-direction:column;height:100vh;position:sticky;top:0;border-right:1px solid var(--border);background:rgba(32,83,117,.22);backdrop-filter:blur(20px);position:relative;overflow:hidden}
+.sidebar::before{content:'';position:absolute;top:-80px;left:-80px;width:260px;height:260px;background:radial-gradient(circle,rgba(246,104,14,.15) 0%,transparent 70%);pointer-events:none}
+.sidebar-logo{padding:28px;border-bottom:1px solid var(--border)}
+.sidebar-logo-text{font-family:'Playfair Display',serif;font-size:20px;font-weight:900;color:#fff;line-height:1.1}
+.sidebar-logo-text span{color:var(--flame);font-style:italic}
+.sidebar-logo-sub{font-family:'Space Mono',monospace;font-size:8px;letter-spacing:3px;text-transform:uppercase;color:rgba(239,239,239,.4);margin-top:5px}
+.sidebar-nav{flex:1;padding:20px 12px;display:flex;flex-direction:column;gap:4px;overflow-y:auto}
+.sidebar-nav-item{display:flex;align-items:center;gap:12px;padding:11px 14px;border-radius:12px;cursor:pointer;font-size:14px;font-weight:500;color:rgba(239,239,239,.5);border:1px solid transparent;transition:all .2s;position:relative;background:none;width:100%;text-align:left}
+.sidebar-nav-item:hover{background:rgba(255,255,255,.06);color:var(--snow)}
+.sidebar-nav-item.active{background:linear-gradient(135deg,rgba(246,104,14,.2),rgba(23,0,113,.3));color:#fff;border-color:rgba(246,104,14,.3)}
+.sidebar-nav-item.active::before{content:'';position:absolute;left:0;top:50%;transform:translateY(-50%);width:3px;height:60%;background:var(--flame);border-radius:0 4px 4px 0}
+.sidebar-nav-icon{font-size:17px;flex-shrink:0}
+.sidebar-nav-badge{margin-left:auto;background:var(--flame);color:#fff;font-family:'Space Mono',monospace;font-size:9px;font-weight:700;border-radius:999px;padding:2px 7px}
+.sidebar-bottom{padding:12px;border-top:1px solid var(--border)}
+.sidebar-user{padding:14px;border-radius:16px;border:1px solid var(--border);display:flex;align-items:center;gap:10px;background:var(--card)}
+.sidebar-user-av{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:15px;color:#fff;flex-shrink:0;background:linear-gradient(135deg,var(--flame),var(--violet))}
+.sidebar-user-name{font-size:13px;font-weight:600;color:#fff}
+.sidebar-user-role{font-family:'Space Mono',monospace;font-size:9px;color:rgba(239,239,239,.4);margin-top:1px}
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:0 36px;height:64px;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:50;background:rgba(17,40,60,.85);backdrop-filter:blur(20px)}
+.topbar-title{font-family:'Playfair Display',serif;font-size:19px;font-weight:700;color:#fff}
+.topbar-date{font-family:'Space Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:1px;color:rgba(239,239,239,.35)}
+.topbar-right{display:flex;align-items:center;gap:12px}
+.topbar-chip{display:flex;align-items:center;gap:6px;padding:6px 14px;border-radius:999px;font-family:'Space Mono',monospace;font-size:10px;color:#5ddf5d;border:1px solid rgba(34,139,34,.35);background:rgba(34,139,34,.15)}
+.topbar-chip::before{content:'';width:6px;height:6px;border-radius:50%;background:#5ddf5d;animation:pulse2 1.5s ease infinite;flex-shrink:0}
+.topbar-pts{padding:6px 16px;border-radius:999px;font-family:'Space Mono',monospace;font-size:11px;font-weight:700;color:#fff;background:linear-gradient(135deg,var(--flame),#c45200)}
+.topbar-notif{width:36px;height:36px;border-radius:10px;background:var(--card);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:15px;position:relative;transition:background .2s}
+.topbar-notif:hover{background:rgba(255,255,255,.1)}
+.topbar-notif-dot{position:absolute;top:6px;right:6px;width:8px;height:8px;background:var(--flame);border-radius:50%;border:2px solid var(--navy)}
+.main-area{flex:1;overflow:hidden;display:flex;flex-direction:column}
+.page-area{flex:1;overflow-y:auto;position:relative}
+.page-bg{pointer-events:none;position:fixed;inset:0;z-index:0;background:radial-gradient(ellipse at 80% 0%,rgba(23,0,113,.12) 0%,transparent 50%),radial-gradient(ellipse at 0% 100%,rgba(34,139,34,.07) 0%,transparent 40%)}
+.page-content{position:relative;z-index:1;padding:36px;animation:fadeUp .4s ease}
+@media(max-width:768px){.sidebar{display:none}.page-content{padding:20px 16px 80px}}
+
+/* ─── DASHBOARD CARDS ──────────────────────────── */
+.card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:24px;position:relative;overflow:hidden;transition:transform .2s,border-color .2s}
+.card:hover{transform:translateY(-2px);border-color:rgba(246,104,14,.2)}
+.card-label{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:rgba(239,239,239,.4);margin-bottom:14px}
+.db-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+@media(max-width:900px){.db-grid{grid-template-columns:1fr}}
+.col-2{grid-column:span 2}
+.greeting-h{font-family:'Playfair Display',serif;font-size:clamp(36px,5vw,52px);font-weight:900;color:#fff;line-height:1.1}
+.greeting-h em{color:var(--flame);font-style:italic}
+.quote-box{margin-top:16px;padding:14px 20px;background:linear-gradient(135deg,rgba(23,0,113,.3),rgba(32,83,117,.3));border-left:3px solid var(--flame);border-radius:0 12px 12px 0;font-size:14px;color:rgba(239,239,239,.75);font-style:italic;max-width:500px;line-height:1.6}
+.quote-author{font-style:normal;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:1px;color:var(--flame);display:block;margin-top:6px}
+.prog-number{font-family:'Playfair Display',serif;font-size:52px;font-weight:900;color:#fff;line-height:1}
+.prog-number span{font-size:24px;color:rgba(239,239,239,.4)}
+.prog-pill{background:rgba(34,139,34,.2);border:1px solid rgba(34,139,34,.4);color:#5ddf5d;font-family:'Space Mono',monospace;font-size:11px;padding:4px 12px;border-radius:999px;display:inline-block}
+.prog-track{height:8px;border-radius:8px;background:rgba(255,255,255,.08);overflow:hidden;margin:12px 0 6px}
+.prog-fill{height:100%;border-radius:8px;background:linear-gradient(90deg,var(--flame),#ff9a4d);width:68%;position:relative;overflow:hidden}
+.prog-fill::after{content:'';position:absolute;right:0;top:0;width:20px;height:100%;background:rgba(255,255,255,.35);filter:blur(4px)}
+.mini-stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:16px}
+.mini-stat{background:rgba(255,255,255,.04);border-radius:12px;padding:12px;text-align:center;border:1px solid rgba(255,255,255,.06)}
+.mini-stat-val{font-family:'Playfair Display',serif;font-size:24px;font-weight:700;color:#fff}
+.mini-stat-lbl{font-size:10px;color:rgba(239,239,239,.4);margin-top:2px}
+/* Streak */
+.streak-card{background:linear-gradient(135deg,rgba(23,0,113,.5),rgba(32,83,117,.5));border-color:rgba(23,0,113,.6)}
+.streak-num{font-family:'Playfair Display',serif;font-size:40px;font-weight:900;color:#fff}
+.streak-dots{display:flex;gap:6px;margin-top:14px;flex-wrap:wrap}
+.streak-dot{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:'Space Mono',monospace;font-size:9px}
+.streak-dot.done{background:linear-gradient(135deg,var(--flame),#c45200);color:#fff}
+.streak-dot.today{border:2px solid var(--flame);color:var(--flame)}
+.streak-dot.empty{background:rgba(255,255,255,.08);color:rgba(239,239,239,.35)}
+/* Meta */
+.meta-item{display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid rgba(255,255,255,.07)}
+.meta-item:last-child{border-bottom:none;padding-bottom:0}
+.meta-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.meta-pct{margin-left:auto;font-family:'Space Mono',monospace;font-size:12px;font-weight:700;color:var(--flame);flex-shrink:0}
+.meta-bar{height:3px;background:rgba(255,255,255,.08);border-radius:3px;overflow:hidden;margin-top:4px}
+.meta-bar-fill{height:100%;border-radius:3px;background:var(--flame)}
+/* Workshop */
+.workshop-item{display:flex;align-items:center;gap:12px;padding:12px;border-radius:14px;border:1px solid var(--border);background:rgba(255,255,255,.03);transition:all .2s;cursor:pointer}
+.workshop-item:hover{border-color:rgba(246,104,14,.3);background:rgba(246,104,14,.05)}
+.workshop-date{border-radius:10px;padding:8px 12px;text-align:center;flex-shrink:0;background:rgba(246,104,14,.15);border:1px solid rgba(246,104,14,.25)}
+.workshop-day{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--flame);line-height:1}
+.workshop-month{font-family:'Space Mono',monospace;font-size:8px;color:rgba(246,104,14,.7);text-transform:uppercase;letter-spacing:1px}
+.workshop-name{font-size:13px;font-weight:600;color:#fff}
+.workshop-sub{font-size:11px;color:rgba(239,239,239,.4);margin-top:2px}
+.workshop-btns{margin-left:auto;display:flex;align-items:center;gap:8px;flex-shrink:0}
+.tag{padding:3px 10px;border-radius:999px;font-size:9px;font-family:'Space Mono',monospace;font-weight:700;border:1px solid}
+.tag-violet{background:rgba(23,0,113,.4);color:#c4b8ff;border-color:rgba(23,0,113,.6)}
+.tag-blue{background:rgba(32,83,117,.5);color:#90c8ff;border-color:rgba(32,83,117,.7)}
+.tag-orange{background:rgba(246,104,14,.15);color:#f6a26e;border-color:rgba(246,104,14,.3)}
+.tag-green{background:rgba(34,139,34,.2);color:#7de87d;border-color:rgba(34,139,34,.4)}
+.enroll-btn{padding:6px 14px;border-radius:8px;font-size:11px;font-weight:700;color:#fff;background:var(--flame);transition:all .2s;white-space:nowrap}
+.enroll-btn:hover{background:#d45500;transform:scale(1.04)}
+.enroll-btn.enrolled{background:var(--emerald)}
+/* Retos */
+.retos-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.reto-item{position:relative;padding:16px;border-radius:14px;border:1px solid var(--border);background:rgba(255,255,255,.03);cursor:pointer;transition:all .2s;text-align:left}
+.reto-item:hover{border-color:rgba(34,139,34,.3);background:rgba(34,139,34,.05)}
+.reto-item.done{background:rgba(34,139,34,.1);border-color:rgba(34,139,34,.4)}
+.reto-check{position:absolute;top:12px;right:12px;width:20px;height:20px;border-radius:50%;border:1.5px solid rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;transition:all .2s}
+.reto-check.checked{background:var(--emerald);border-color:var(--emerald)}
+.reto-emoji{font-size:28px;display:block;margin-bottom:8px}
+.reto-title{font-size:12px;font-weight:600;color:#fff;line-height:1.3}
+.reto-pts{font-family:'Space Mono',monospace;font-size:9px;color:var(--flame);margin-top:6px}
+.reto-item.done .reto-pts{color:#5ddf5d}
+/* Tests */
+.test-list{display:flex;flex-direction:column;gap:8px}
+.test-btn{display:flex;align-items:center;gap:10px;padding:11px 14px;border-radius:12px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.05);cursor:pointer;transition:all .2s;width:100%;text-align:left;color:var(--snow)}
+.test-btn:hover{background:rgba(34,139,34,.2);border-color:rgba(34,139,34,.4)}
+.test-btn-title{font-size:12px;font-weight:600;color:#fff}
+.test-btn-sub{font-size:10px;color:rgba(239,239,239,.4);margin-top:1px}
+.test-arrow{margin-left:auto;color:rgba(239,239,239,.3);font-size:16px}
+/* Section header */
+.sh{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.sh h3{font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:#fff}
+.see-all{font-family:'Space Mono',monospace;font-size:9px;color:var(--flame);cursor:pointer;letter-spacing:1px;text-transform:uppercase;background:none;border:none}
+.see-all:hover{text-decoration:underline}
+/* Tab buttons */
+.tab-row{display:flex;gap:2px;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:14px;padding:4px;width:fit-content;margin-bottom:24px}
+.tab-btn{padding:8px 18px;border-radius:10px;font-size:13px;font-weight:500;color:rgba(239,239,239,.5);cursor:pointer;border:none;background:none;transition:all .2s}
+.tab-btn.active{background:var(--flame);color:#fff;font-weight:600}
+.tab-btn:hover:not(.active){color:var(--snow);background:rgba(255,255,255,.05)}
+/* Mobile bottom nav */
+.mobile-nav{display:none;position:fixed;bottom:0;left:0;right:0;z-index:50;height:64px;border-top:1px solid var(--border);background:rgba(17,40,60,.95);backdrop-filter:blur(20px);justify-content:space-around;align-items:center}
+.mobile-nav-btn{width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:22px;transition:all .2s;background:none;border:none}
+.mobile-nav-btn.active{background:rgba(246,104,14,.2);transform:scale(1.1)}
+.mobile-nav-btn:not(.active){opacity:.45}
+@media(max-width:768px){.mobile-nav{display:flex}}
+
+/* ─── NEWS PAGE ────────────────────────────────── */
+.news-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.news-card{padding:20px;border-radius:18px;border:1px solid var(--border);background:var(--card);cursor:pointer;transition:all .2s}
+.news-card:hover{border-color:rgba(246,104,14,.25);transform:translateY(-2px)}
+.news-type{font-family:'Space Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:2px;color:rgba(239,239,239,.35);margin-bottom:10px}
+.news-title{font-family:'Playfair Display',serif;font-size:15px;font-weight:700;color:#fff;line-height:1.35;margin-bottom:8px;transition:color .2s}
+.news-card:hover .news-title{color:var(--flame)}
+.news-excerpt{font-size:12px;color:rgba(239,239,239,.5);line-height:1.6;margin-bottom:14px}
+.news-footer{display:flex;align-items:center;justify-content:space-between;padding-top:12px;border-top:1px solid rgba(255,255,255,.06)}
+.news-time{font-family:'Space Mono',monospace;font-size:9px;color:rgba(239,239,239,.3)}
+@media(max-width:900px){.news-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){.news-grid{grid-template-columns:1fr}}
+
+/* ─── AGENDA PAGE ──────────────────────────────── */
+.calendar-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+.cal-day-label{text-align:center;font-family:'Space Mono',monospace;font-size:8px;text-transform:uppercase;letter-spacing:1px;color:rgba(239,239,239,.3);padding:6px 0}
+.cal-day{aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:10px;cursor:pointer;font-size:13px;font-weight:500;color:rgba(239,239,239,.6);transition:all .15s;position:relative}
+.cal-day:hover{background:rgba(255,255,255,.08);color:#fff}
+.cal-day.selected{background:var(--flame);color:#fff;font-weight:700}
+.cal-day.today:not(.selected){border:1px solid var(--flame);color:var(--flame)}
+.cal-day-dot{width:5px;height:5px;border-radius:50%;background:var(--flame);position:absolute;bottom:4px}
+.cal-day.selected .cal-day-dot{background:#fff}
+.checklist{display:flex;flex-direction:column;gap:8px}
+.checklist-item{display:flex;align-items:center;gap:10px;padding:12px;border-radius:12px;border:1px solid var(--border);background:rgba(255,255,255,.03);cursor:pointer;transition:all .2s;text-align:left;width:100%}
+.checklist-item:hover{border-color:rgba(34,139,34,.25)}
+.checklist-item.done{background:rgba(34,139,34,.1);border-color:rgba(34,139,34,.35)}
+.checklist-circle{width:20px;height:20px;border-radius:50%;border:1.5px solid rgba(255,255,255,.25);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0;transition:all .2s}
+.checklist-circle.checked{background:var(--emerald);border-color:var(--emerald);color:#fff}
+.checklist-text{font-size:12px;color:rgba(239,239,239,.8);transition:color .2s}
+.checklist-item.done .checklist-text{text-decoration:line-through;color:rgba(239,239,239,.35)}
+.add-task-form{display:flex;gap:8px;margin-top:8px}
+.add-task-input{flex:1;padding:10px 14px;border-radius:12px;border:1px solid var(--border);background:rgba(255,255,255,.05);font-size:12px;color:rgba(239,239,239,.8);outline:none;transition:border-color .2s}
+.add-task-input:focus{border-color:rgba(246,104,14,.4)}
+.add-task-input::placeholder{color:rgba(239,239,239,.25)}
+.add-task-btn{width:36px;height:36px;border-radius:10px;background:var(--flame);color:#fff;font-size:20px;display:flex;align-items:center;justify-content:center;transition:background .2s;flex-shrink:0}
+.add-task-btn:hover{background:#d45500}
+
+/* ─── COMUNIDAD PAGE ───────────────────────────── */
+.post-card{padding:20px;border-radius:18px;border:1px solid var(--border);background:var(--card);margin-bottom:12px}
+.post-author{display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap}
+.post-av{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;color:#fff;flex-shrink:0;background:linear-gradient(135deg,var(--flame),var(--violet))}
+.post-name{font-size:13px;font-weight:600;color:#fff}
+.post-time{font-family:'Space Mono',monospace;font-size:9px;color:rgba(239,239,239,.3);margin-left:auto}
+.post-text{font-size:13px;color:rgba(239,239,239,.7);line-height:1.6;margin-bottom:14px}
+.post-actions{display:flex;align-items:center;gap:18px}
+.post-action{display:flex;align-items:center;gap:5px;font-size:12px;color:rgba(239,239,239,.35);cursor:pointer;transition:color .2s;background:none;border:none}
+.post-action:hover{color:var(--flame)}
+.post-action.liked{color:var(--flame)}
+.compose-area{padding:16px;border-radius:18px;border:1px solid var(--border);background:var(--card);margin-bottom:16px}
+.compose-textarea{width:100%;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:12px;padding:12px;font-size:13px;color:rgba(239,239,239,.8);outline:none;resize:none;transition:border-color .2s}
+.compose-textarea:focus{border-color:rgba(246,104,14,.4)}
+.compose-textarea::placeholder{color:rgba(239,239,239,.25)}
+.compose-footer{display:flex;align-items:center;justify-content:space-between;margin-top:10px}
+.group-btn{width:100%;display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:12px;border:1px solid var(--border);background:rgba(255,255,255,.03);cursor:pointer;transition:all .2s;text-align:left;margin-bottom:8px}
+.group-btn:hover,.group-btn.active{border-color:rgba(246,104,14,.35);background:rgba(246,104,14,.08)}
+.group-icon{font-size:18px}
+.group-name{font-size:12px;font-weight:600;color:#fff}
+.group-members{font-family:'Space Mono',monospace;font-size:9px;color:rgba(239,239,239,.35);margin-top:1px}
+
+/* ─── TALLERES PAGE ────────────────────────────── */
+.taller-card{padding:20px;border-radius:18px;border:1px solid var(--border);background:var(--card);cursor:pointer;transition:all .2s}
+.taller-card:hover{border-color:rgba(246,104,14,.25);transform:translateY(-2px)}
+.taller-header{display:flex;gap:12px;margin-bottom:14px}
+.taller-date-box{flex-shrink:0;background:rgba(246,104,14,.15);border:1px solid rgba(246,104,14,.25);border-radius:12px;padding:8px 12px;text-align:center}
+.taller-day{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:var(--flame);line-height:1}
+.taller-month{font-family:'Space Mono',monospace;font-size:8px;color:rgba(246,104,14,.6);text-transform:uppercase;letter-spacing:1px}
+.taller-title{font-family:'Playfair Display',serif;font-size:15px;font-weight:700;color:#fff;transition:color .2s}
+.taller-card:hover .taller-title{color:var(--flame)}
+.taller-tutor{font-size:11px;color:rgba(239,239,239,.45);margin-top:3px}
+.taller-meta{display:flex;flex-wrap:wrap;gap:10px;font-family:'Space Mono',monospace;font-size:9px;color:rgba(239,239,239,.4);margin-bottom:14px}
+.taller-footer{display:flex;align-items:center;gap:8px}
+.cert-note{font-family:'Space Mono',monospace;font-size:9px;color:rgba(239,239,239,.3);margin-top:10px}
+.tutor-card{padding:20px;border-radius:18px;border:1px solid var(--border);background:var(--card);text-align:center;cursor:pointer;transition:all .2s}
+.tutor-card:hover{border-color:rgba(246,104,14,.25);transform:translateY(-2px)}
+.tutor-av{width:56px;height:56px;border-radius:18px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:22px;color:#fff;margin:0 auto 12px}
+.tutor-name{font-size:13px;font-weight:600;color:#fff;margin-bottom:3px;transition:color .2s}
+.tutor-card:hover .tutor-name{color:var(--flame)}
+.tutor-role{font-size:11px;color:rgba(239,239,239,.45)}
+.tutor-exp{font-family:'Space Mono',monospace;font-size:9px;color:rgba(239,239,239,.3);margin-top:4px}
+
+/* ─── TRANSITION ────────────────────────────────── */
+.fade-out{opacity:0;transition:opacity .5s ease;pointer-events:none}
+.fade-in{opacity:1;transition:opacity .5s ease}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════ -->
+<!--                LANDING PAGE                -->
+<!-- ═══════════════════════════════════════════ -->
+<div id="landing">
+
+  <!-- NAVBAR -->
+  <nav class="lnav" id="lnav">
+    <a class="logo-wrap" onclick="scrollToTop()">
+      <div class="logo-icon">D</div>
+      <div class="logo-text">Descubre tu <span>Potencial</span></div>
+    </a>
+    <div class="lnav-links">
+      <button class="lnav-link" onclick="scrollTo2('nosotros')">Nosotros</button>
+      <button class="lnav-link" onclick="scrollTo2('servicios')">Servicios</button>
+      <button class="lnav-link" onclick="scrollTo2('proceso')">Proceso</button>
+      <button class="lnav-link" onclick="scrollTo2('portafolio')">Portafolio</button>
+      <button class="lnav-link" onclick="scrollTo2('testimonios')">Testimonios</button>
+    </div>
+    <div class="lnav-right">
+      <button class="btn-ghost" onclick="enterApp()">Iniciar sesión</button>
+      <button class="btn-primary" onclick="enterApp()">Comenzar gratis →</button>
+    </div>
+    <button class="hamburger" onclick="toggleMobile()" id="hamburger">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- MOBILE MENU -->
+  <div class="mobile-menu" id="mobileMenu" style="background:rgba(17,40,60,.98);backdrop-filter:blur(20px)">
+    <button class="lnav-link" onclick="scrollTo2('nosotros');toggleMobile()">Nosotros</button>
+    <button class="lnav-link" onclick="scrollTo2('servicios');toggleMobile()">Servicios</button>
+    <button class="lnav-link" onclick="scrollTo2('proceso');toggleMobile()">Proceso</button>
+    <button class="lnav-link" onclick="scrollTo2('portafolio');toggleMobile()">Portafolio</button>
+    <button class="lnav-link" onclick="scrollTo2('testimonios');toggleMobile()">Testimonios</button>
+    <button class="btn-primary" style="margin-top:8px" onclick="enterApp()">Comenzar gratis →</button>
+  </div>
+
+  <!-- ─── HERO ─────────────────────────────── -->
+  <section class="hero" id="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-orb hero-orb-1" id="orb1"></div>
+    <div class="hero-orb hero-orb-2" id="orb2"></div>
+    <div class="hero-orb hero-orb-3" id="orb3"></div>
+    <div class="hero-grid"></div>
+
+    <div class="hero-content">
+      <!-- LEFT -->
+      <div>
+        <div class="hero-badge">
+          <span class="hero-badge-dot"></span>
+          <span>Plataforma #1 para jóvenes 2026</span>
+        </div>
+
+        <h1 class="hero-h1">
+          Descubre<br>
+          <em>quién eres</em><br>
+          y hasta dónde<br>
+          <span class="hero-underline">
+            puedes llegar
+            <svg viewBox="0 0 300 12" fill="none" style="position:absolute;bottom:-8px;left:0;width:100%">
+              <path d="M2 10 Q75 2 150 8 Q225 14 298 6" stroke="#F6680E" stroke-width="3" stroke-linecap="round"
+                style="stroke-dasharray:320;stroke-dashoffset:320;transition:stroke-dashoffset 1.2s ease .9s" id="underlinePath"/>
+            </svg>
+          </span>
+        </h1>
+
+        <p class="hero-p">
+          La plataforma de autoconocimiento, mejora personal y descubrimiento vocacional
+          diseñada para jóvenes de <strong>15 a 25 años</strong> que quieren encontrar su camino.
+        </p>
+
+        <div class="hero-ctas">
+          <button class="btn-hero" onclick="enterApp()">
+            Comenzar gratis <span>→</span>
+          </button>
+          <button class="btn-outline" onclick="enterApp()">
+            <span class="btn-outline-icon">▶</span>
+            Ver demo
+          </button>
+        </div>
+
+        <div class="hero-stats">
+          <div><div class="hero-stat-val">500+</div><div class="hero-stat-lbl">Jóvenes impactados</div></div>
+          <div><div class="hero-stat-val">98%</div><div class="hero-stat-lbl">Satisfacción</div></div>
+          <div><div class="hero-stat-val">80+</div><div class="hero-stat-lbl">Talleres realizados</div></div>
+          <div><div class="hero-stat-val">4.9★</div><div class="hero-stat-lbl">Valoración media</div></div>
+        </div>
+      </div>
+
+      <!-- MOCKUP -->
+      <div class="hero-mockup">
+        <div class="mockup-card">
+          <div class="mockup-bar">
+            <div class="mockup-dots">
+              <div class="mockup-dot" style="background:#ff5f57"></div>
+              <div class="mockup-dot" style="background:#febc2e"></div>
+              <div class="mockup-dot" style="background:#28c840"></div>
+            </div>
+            <div class="mockup-url"><span>descubretupoencial.app</span></div>
+          </div>
+          <div class="mockup-body">
+            <div class="mockup-greeting">
+              <div class="mockup-avatar">S</div>
+              <div>
+                <div class="mockup-name">Hola, Sofía 👋</div>
+                <div class="mockup-role">Nivel 4 · Exploradora</div>
+              </div>
+              <div class="mockup-pts">🔥 1,240 pts</div>
+            </div>
+            <div class="mockup-prog">
+              <div class="mockup-prog-header">
+                <span class="mockup-prog-label">Progreso General</span>
+                <span class="mockup-prog-num">68%</span>
+              </div>
+              <div class="mockup-bar-track"><div class="mockup-bar-fill"></div></div>
+            </div>
+            <div class="mockup-mini-stats">
+              <div class="mockup-mini-stat"><div class="mockup-mini-val">5</div><div class="mockup-mini-lbl">Talleres</div></div>
+              <div class="mockup-mini-stat"><div class="mockup-mini-val">14</div><div class="mockup-mini-lbl">Racha</div></div>
+              <div class="mockup-mini-stat"><div class="mockup-mini-val">3</div><div class="mockup-mini-lbl">Metas</div></div>
+            </div>
+            <div class="mockup-workshop">
+              <div>
+                <div class="mockup-wday">24</div>
+                <div class="mockup-wmonth">Feb</div>
+              </div>
+              <div>
+                <div class="mockup-wname">Diseño UX/UI con Camila Torres</div>
+                <div class="mockup-winfo">18:00 hs · Virtual · 142 inscritos</div>
+              </div>
+              <button class="mockup-wbtn">Unirme</button>
+            </div>
+          </div>
+        </div>
+        <div class="float-badge badge-tl">
+          <div class="float-badge-title">✓ Test completado</div>
+          <div class="float-badge-sub">+50 puntos ganados</div>
+        </div>
+        <div class="float-badge badge-br">
+          <div class="float-badge-title">🎓 Certificado digital</div>
+          <div class="float-badge-sub">Diseño UX/UI · Feb 2026</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="scroll-indicator">
+      <p>Descubrir más</p>
+      <div class="scroll-wheel"><div class="scroll-ball"></div></div>
+    </div>
+  </section>
+
+  <!-- ─── ABOUT ─────────────────────────────── -->
+  <div class="section-wrapper about-wrapper" id="nosotros">
+    <div class="section">
+      <span class="section-label reveal">Quiénes somos</span>
+      <h2 class="section-title reveal" style="transition-delay:.1s">Nacimos para que ningún joven <br>se quede sin <em>dirección</em></h2>
+
+      <div class="about-grid" style="margin-top:16px">
+        <div class="reveal-left">
+          <div class="about-img">
+            <div class="about-avatars">
+              <div class="about-av" style="background:linear-gradient(135deg,#F6680E,#c45200)">S</div>
+              <div class="about-av" style="background:linear-gradient(135deg,#170071,#205375)">M</div>
+              <div class="about-av" style="background:linear-gradient(135deg,#228B22,#115D33)">A</div>
+              <div class="about-av" style="background:linear-gradient(135deg,#205375,#170071)">L</div>
+              <div class="about-av" style="background:linear-gradient(135deg,#F6680E,#170071)">C</div>
+            </div>
+            <div class="about-img-text">
+              <p>+500 jóvenes</p>
+              <span>transformando su futuro</span>
+            </div>
+            <div class="about-hover">
+              <div>
+                <p class="about-hover-text">"Encontré mi vocación en 3 meses"</p>
+                <p class="about-hover-sub">— Sofía, 19 años, Buenos Aires</p>
+              </div>
+            </div>
+            <div class="stat-bubble">
+              <div class="stat-bubble-val">98%</div>
+              <div class="stat-bubble-lbl">Satisfacción</div>
+            </div>
+          </div>
+        </div>
+        <div class="about-text">
+          <p class="reveal" style="transition-delay:.1s"><strong>Descubre tu Potencial</strong> nació de una pregunta simple: ¿por qué tantos jóvenes terminan el colegio sin saber qué quieren hacer con su vida?</p>
+          <p class="reveal" style="transition-delay:.2s">Construimos una plataforma que combina <strong>psicología vocacional, tecnología y comunidad</strong> para darte las herramientas que el sistema educativo tradicional no te da.</p>
+          <p class="reveal" style="transition-delay:.3s">Más de 500 jóvenes ya encontraron su camino con nosotros. ¿Serás el próximo?</p>
+          <div class="about-inline-stats reveal" style="transition-delay:.4s">
+            <div><div class="about-inline-stat-val">2023</div><div class="about-inline-stat-lbl">Fundación</div></div>
+            <div><div class="about-inline-stat-val">4.9★</div><div class="about-inline-stat-lbl">App Store</div></div>
+            <div><div class="about-inline-stat-val">15–25</div><div class="about-inline-stat-lbl">Edad target</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="values-grid" style="margin-top:48px">
+        <div class="value-card reveal"><div class="value-icon">🧭</div><div class="value-title">Propósito claro</div><div class="value-desc">Te ayudamos a encontrar tu vocación con herramientas reales y acompañamiento experto.</div></div>
+        <div class="value-card reveal" style="transition-delay:.1s"><div class="value-icon">🤝</div><div class="value-title">Comunidad real</div><div class="value-desc">Conecta con miles de jóvenes que comparten tus intereses y metas de vida.</div></div>
+        <div class="value-card reveal" style="transition-delay:.2s"><div class="value-icon">🚀</div><div class="value-title">Crecimiento activo</div><div class="value-desc">Tests, talleres, retos diarios y contenido personalizado para tu desarrollo continuo.</div></div>
+        <div class="value-card reveal" style="transition-delay:.3s"><div class="value-icon">🏆</div><div class="value-title">Resultados medibles</div><div class="value-desc">Seguimiento de progreso real, certificados digitales y habilidades tangibles.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── SERVICES ──────────────────────────── -->
+  <div class="section-wrapper services-wrapper" id="servicios">
+    <div class="section">
+      <span class="section-label reveal">Servicios</span>
+      <h2 class="section-title reveal" style="transition-delay:.1s">Todo lo que necesitas<br>en <em>un solo lugar</em></h2>
+      <p class="section-sub reveal" style="transition-delay:.2s">Herramientas diseñadas para acompañarte en cada etapa de tu descubrimiento personal.</p>
+      <div class="services-grid">
+        <div class="service-card reveal">
+          <div class="service-card-bg" style="background:linear-gradient(135deg,rgba(246,104,14,.2),rgba(23,0,113,.2))"></div>
+          <div class="service-content"><span class="service-icon">🧠</span><h3 class="service-title">Tests Vocacionales</h3><p class="service-desc">Tests científicamente validados de inteligencias múltiples, personalidad y fortalezas para descubrir tu perfil único.</p><div class="service-features"><div class="service-feature"><span class="service-feature-dot" style="background:var(--flame)"></span>Test MBTI adaptado</div><div class="service-feature"><span class="service-feature-dot" style="background:var(--flame)"></span>Inteligencias múltiples</div><div class="service-feature"><span class="service-feature-dot" style="background:var(--flame)"></span>Fortalezas personales</div><div class="service-feature"><span class="service-feature-dot" style="background:var(--flame)"></span>Estilo de aprendizaje</div></div></div>
+        </div>
+        <div class="service-card reveal" style="transition-delay:.1s">
+          <div class="service-badge">✦ Popular</div>
+          <div class="service-card-bg" style="background:linear-gradient(135deg,rgba(23,0,113,.3),rgba(32,83,117,.3))"></div>
+          <div class="service-content"><span class="service-icon">🎓</span><h3 class="service-title">Talleres con Expertos</h3><p class="service-desc">Workshops virtuales y presenciales con profesionales reales que tienen años de experiencia en su área.</p><div class="service-features"><div class="service-feature"><span class="service-feature-dot" style="background:#c4b8ff"></span>+80 talleres al año</div><div class="service-feature"><span class="service-feature-dot" style="background:#c4b8ff"></span>Tutores certificados</div><div class="service-feature"><span class="service-feature-dot" style="background:#c4b8ff"></span>Certificados digitales</div><div class="service-feature"><span class="service-feature-dot" style="background:#c4b8ff"></span>Grabaciones disponibles</div></div></div>
+        </div>
+        <div class="service-card reveal" style="transition-delay:.2s">
+          <div class="service-card-bg" style="background:linear-gradient(135deg,rgba(32,83,117,.3),rgba(17,93,51,.2))"></div>
+          <div class="service-content"><span class="service-icon">📅</span><h3 class="service-title">Agenda Inteligente</h3><p class="service-desc">Organiza tus metas, talleres y tareas con un sistema de planificación diseñado para jóvenes.</p><div class="service-features"><div class="service-feature"><span class="service-feature-dot" style="background:#90c8ff"></span>Calendario editable</div><div class="service-feature"><span class="service-feature-dot" style="background:#90c8ff"></span>Modo enfoque</div><div class="service-feature"><span class="service-feature-dot" style="background:#90c8ff"></span>Recordatorios</div><div class="service-feature"><span class="service-feature-dot" style="background:#90c8ff"></span>Sincronización Google</div></div></div>
+        </div>
+        <div class="service-card reveal" style="transition-delay:.3s">
+          <div class="service-card-bg" style="background:linear-gradient(135deg,rgba(34,139,34,.15),rgba(17,93,51,.2))"></div>
+          <div class="service-content"><span class="service-icon">💬</span><h3 class="service-title">Comunidad Activa</h3><p class="service-desc">Foro, grupos por intereses, retos colectivos y conexión con tutores y compañeros.</p><div class="service-features"><div class="service-feature"><span class="service-feature-dot" style="background:#7de87d"></span>Grupos de interés</div><div class="service-feature"><span class="service-feature-dot" style="background:#7de87d"></span>Retos colectivos</div><div class="service-feature"><span class="service-feature-dot" style="background:#7de87d"></span>Mentorías</div><div class="service-feature"><span class="service-feature-dot" style="background:#7de87d"></span>Chat grupal</div></div></div>
+        </div>
+        <div class="service-card reveal" style="transition-delay:.4s">
+          <div class="service-card-bg" style="background:linear-gradient(135deg,rgba(246,104,14,.1),rgba(17,93,51,.1))"></div>
+          <div class="service-content"><span class="service-icon">📰</span><h3 class="service-title">Contenido Personalizado</h3><p class="service-desc">Artículos, videos, podcasts e historias de inspiración curados según tu perfil e intereses.</p><div class="service-features"><div class="service-feature"><span class="service-feature-dot" style="background:#f6a26e"></span>Reels educativos</div><div class="service-feature"><span class="service-feature-dot" style="background:#f6a26e"></span>Mini blogs</div><div class="service-feature"><span class="service-feature-dot" style="background:#f6a26e"></span>Podcasts</div><div class="service-feature"><span class="service-feature-dot" style="background:#f6a26e"></span>Historias reales</div></div></div>
+        </div>
+        <div class="service-card reveal" style="transition-delay:.5s">
+          <div class="service-card-bg" style="background:linear-gradient(135deg,rgba(23,0,113,.15),rgba(246,104,14,.1))"></div>
+          <div class="service-content"><span class="service-icon">🏆</span><h3 class="service-title">Sistema de Logros</h3><p class="service-desc">Puntos, rachas, insignias y certificados digitales que reconocen tu esfuerzo y te mantienen motivado.</p><div class="service-features"><div class="service-feature"><span class="service-feature-dot" style="background:#facc15"></span>Sistema de puntos</div><div class="service-feature"><span class="service-feature-dot" style="background:#facc15"></span>Rachas diarias</div><div class="service-feature"><span class="service-feature-dot" style="background:#facc15"></span>Insignias únicas</div><div class="service-feature"><span class="service-feature-dot" style="background:#facc15"></span>Ranking comunidad</div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── PROCESS ───────────────────────────── -->
+  <div class="section-wrapper process-wrapper" id="proceso">
+    <div class="process-glow"></div>
+    <div class="section">
+      <span class="section-label reveal">Cómo funciona</span>
+      <h2 class="section-title reveal" style="transition-delay:.1s">De la duda a la <em>claridad</em><br>en 4 pasos simples</h2>
+      <div class="process-steps" style="margin-top:48px">
+        <div class="process-line"></div>
+        <div class="process-step reveal">
+          <div class="process-circle" style="border-color:#F6680E;background:rgba(246,104,14,.12)">
+            <div class="process-glow-inner" style="background:rgba(246,104,14,.25)"></div>
+            <span class="process-icon">✍️</span>
+            <span class="process-num" style="color:#F6680E">01</span>
+          </div>
+          <h3 class="process-title">Crea tu perfil</h3>
+          <p class="process-desc">Regístrate gratis y cuéntanos sobre ti: tus intereses, hobbies, lo que te apasiona.</p>
+          <span class="process-pill" style="color:#F6680E;border-color:rgba(246,104,14,.4);background:rgba(246,104,14,.08)">5 minutos · Sin tarjeta</span>
+        </div>
+        <div class="process-step reveal" style="transition-delay:.15s">
+          <div class="process-circle" style="border-color:#170071;background:rgba(23,0,113,.15)">
+            <div class="process-glow-inner" style="background:rgba(23,0,113,.3)"></div>
+            <span class="process-icon">🧠</span>
+            <span class="process-num" style="color:#9b8fff">02</span>
+          </div>
+          <h3 class="process-title">Completa tests</h3>
+          <p class="process-desc">Responde nuestros tests vocacionales y de personalidad. El sistema construye tu perfil único.</p>
+          <span class="process-pill" style="color:#9b8fff;border-color:rgba(23,0,113,.5);background:rgba(23,0,113,.12)">15–30 min · Resultados inmediatos</span>
+        </div>
+        <div class="process-step reveal" style="transition-delay:.3s">
+          <div class="process-circle" style="border-color:#228B22;background:rgba(34,139,34,.12)">
+            <div class="process-glow-inner" style="background:rgba(34,139,34,.25)"></div>
+            <span class="process-icon">🗺️</span>
+            <span class="process-num" style="color:#5ddf5d">03</span>
+          </div>
+          <h3 class="process-title">Descubre tu mapa</h3>
+          <p class="process-desc">Recibe tu mapa personal con recomendaciones de talleres, contenido y conexiones para ti.</p>
+          <span class="process-pill" style="color:#5ddf5d;border-color:rgba(34,139,34,.4);background:rgba(34,139,34,.08)">Personalizado 100%</span>
+        </div>
+        <div class="process-step reveal" style="transition-delay:.45s">
+          <div class="process-circle" style="border-color:#205375;background:rgba(32,83,117,.2)">
+            <div class="process-glow-inner" style="background:rgba(32,83,117,.35)"></div>
+            <span class="process-icon">🚀</span>
+            <span class="process-num" style="color:#90c8ff">04</span>
+          </div>
+          <h3 class="process-title">Actúa y crece</h3>
+          <p class="process-desc">Únete a talleres, cumple retos, conecta con tu comunidad y acumula logros reales.</p>
+          <span class="process-pill" style="color:#90c8ff;border-color:rgba(32,83,117,.5);background:rgba(32,83,117,.12)">Certificados · Portafolio</span>
+        </div>
+      </div>
+      <div class="process-cta-wrap reveal" style="transition-delay:.5s">
+        <div class="process-cta-chip">
+          <span class="hero-badge-dot"></span>
+          <span>Gratis para siempre · Sin compromisos</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── PORTFOLIO ─────────────────────────── -->
+  <div class="section-wrapper portfolio-wrapper" id="portafolio">
+    <div class="section">
+      <span class="section-label reveal">Portafolio</span>
+      <h2 class="section-title reveal" style="transition-delay:.1s">Talleres que <em>transforman</em><br>vidas reales</h2>
+      <div class="filters reveal" style="transition-delay:.2s">
+        <button class="filter-btn active" onclick="filterPort(this,'todos')">Todos</button>
+        <button class="filter-btn" onclick="filterPort(this,'Diseño')">Diseño</button>
+        <button class="filter-btn" onclick="filterPort(this,'Ciencia')">Ciencia</button>
+        <button class="filter-btn" onclick="filterPort(this,'Arte')">Arte</button>
+        <button class="filter-btn" onclick="filterPort(this,'Liderazgo')">Liderazgo</button>
+      </div>
+      <div class="portfolio-grid" id="portGrid">
+        <div class="port-card reveal" data-cat="Diseño">
+          <div class="port-bg" style="background:linear-gradient(135deg,rgba(246,104,14,.3),rgba(23,0,113,.3))"></div>
+          <div class="port-content"><div class="port-top"><span class="port-emoji">🎨</span><span class="port-tag">Virtual</span></div><div class="port-bottom"><span class="port-cat" style="color:#F6680E">Diseño</span><div class="port-title">Taller de Diseño UX/UI</div><div class="port-desc">Camila Torres · 142 inscritos · 4.9★</div></div></div>
+          <div class="port-overlay"><div class="port-overlay-emoji">🎨</div><div class="port-overlay-title">Diseño UX/UI</div><div class="port-overlay-result" style="color:#F6680E">📊 87% encontró empleo en diseño</div><button class="port-overlay-btn" style="background:linear-gradient(135deg,#F6680E,#c45200)" onclick="enterApp()">Ver taller →</button></div>
+        </div>
+        <div class="port-card reveal" style="transition-delay:.1s" data-cat="Liderazgo">
+          <div class="port-bg" style="background:linear-gradient(135deg,rgba(23,0,113,.3),rgba(32,83,117,.3))"></div>
+          <div class="port-content"><div class="port-top"><span class="port-emoji">🚀</span><span class="port-tag">Presencial</span></div><div class="port-bottom"><span class="port-cat" style="color:#9b8fff">Liderazgo</span><div class="port-title">Programa de Liderazgo Joven</div><div class="port-desc">Lucas Pereyra · 201 inscritos · 4.8★</div></div></div>
+          <div class="port-overlay"><div class="port-overlay-emoji">🚀</div><div class="port-overlay-title">Liderazgo Joven</div><div class="port-overlay-result" style="color:#9b8fff">📊 65% fundó su emprendimiento</div><button class="port-overlay-btn" style="background:linear-gradient(135deg,#170071,#9b8fff)" onclick="enterApp()">Ver taller →</button></div>
+        </div>
+        <div class="port-card reveal" style="transition-delay:.2s" data-cat="Ciencia">
+          <div class="port-bg" style="background:linear-gradient(135deg,rgba(32,83,117,.3),rgba(34,139,34,.2))"></div>
+          <div class="port-content"><div class="port-top"><span class="port-emoji">🧪</span><span class="port-tag">Virtual</span></div><div class="port-bottom"><span class="port-cat" style="color:#90c8ff">Ciencia</span><div class="port-title">Ciencia de Datos para Jóvenes</div><div class="port-desc">Dr. Miguel Ríos · 89 inscritos · 4.7★</div></div></div>
+          <div class="port-overlay"><div class="port-overlay-emoji">🧪</div><div class="port-overlay-title">Ciencia de Datos</div><div class="port-overlay-result" style="color:#90c8ff">📊 92% consiguió beca universitaria</div><button class="port-overlay-btn" style="background:linear-gradient(135deg,#205375,#90c8ff)" onclick="enterApp()">Ver taller →</button></div>
+        </div>
+        <div class="port-card reveal" style="transition-delay:.3s" data-cat="Arte">
+          <div class="port-bg" style="background:linear-gradient(135deg,rgba(34,139,34,.2),rgba(17,93,51,.3))"></div>
+          <div class="port-content"><div class="port-top"><span class="port-emoji">📷</span><span class="port-tag">Presencial</span></div><div class="port-bottom"><span class="port-cat" style="color:#7de87d">Arte</span><div class="port-title">Fotografía Callejera Express</div><div class="port-desc">Ana Belén Mora · 67 inscritos · 4.8★</div></div></div>
+          <div class="port-overlay"><div class="port-overlay-emoji">📷</div><div class="port-overlay-title">Fotografía</div><div class="port-overlay-result" style="color:#7de87d">📊 100% armó su portafolio</div><button class="port-overlay-btn" style="background:linear-gradient(135deg,#228B22,#7de87d)" onclick="enterApp()">Ver taller →</button></div>
+        </div>
+        <div class="port-card reveal" style="transition-delay:.4s" data-cat="Liderazgo">
+          <div class="port-bg" style="background:linear-gradient(135deg,rgba(246,104,14,.2),rgba(17,93,51,.2))"></div>
+          <div class="port-content"><div class="port-top"><span class="port-emoji">💡</span><span class="port-tag">Híbrido</span></div><div class="port-bottom"><span class="port-cat" style="color:#f6a26e">Negocios</span><div class="port-title">Emprendimiento desde Cero</div><div class="port-desc">Lucas Pereyra · 178 inscritos · 4.6★</div></div></div>
+          <div class="port-overlay"><div class="port-overlay-emoji">💡</div><div class="port-overlay-title">Emprendimiento</div><div class="port-overlay-result" style="color:#f6a26e">📊 40% lanzó su primer producto</div><button class="port-overlay-btn" style="background:linear-gradient(135deg,#F6680E,#f6a26e)" onclick="enterApp()">Ver taller →</button></div>
+        </div>
+        <div class="port-card reveal" style="transition-delay:.5s" data-cat="Diseño">
+          <div class="port-bg" style="background:linear-gradient(135deg,rgba(23,0,113,.2),rgba(246,104,14,.2))"></div>
+          <div class="port-content"><div class="port-top"><span class="port-emoji">🎙️</span><span class="port-tag">Virtual</span></div><div class="port-bottom"><span class="port-cat" style="color:#c4b8ff">Comunicación</span><div class="port-title">Comunicación y Oratoria</div><div class="port-desc">Valentina Cruz · 234 inscritos · 4.9★</div></div></div>
+          <div class="port-overlay"><div class="port-overlay-emoji">🎙️</div><div class="port-overlay-title">Oratoria</div><div class="port-overlay-result" style="color:#c4b8ff">📊 95% mejoró su confianza</div><button class="port-overlay-btn" style="background:linear-gradient(135deg,#170071,#c4b8ff)" onclick="enterApp()">Ver taller →</button></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── TESTIMONIALS ──────────────────────── -->
+  <div class="section-wrapper test-wrapper" id="testimonios">
+    <div class="test-glow" id="testGlow"></div>
+    <div class="section">
+      <span class="section-label reveal">Testimonios</span>
+      <h2 class="section-title reveal" style="transition-delay:.1s">Lo dicen quienes ya<br><em>descubrieron su potencial</em></h2>
+      <div style="margin-top:48px">
+        <div class="test-card reveal" id="testCard">
+          <div class="test-quote-mark">"</div>
+          <div class="test-stars"><span class="test-star">★</span><span class="test-star">★</span><span class="test-star">★</span><span class="test-star">★</span><span class="test-star">★</span></div>
+          <blockquote class="test-text" id="testText">"Entré a la plataforma sin saber qué estudiar. En tres meses descubrí que me apasiona el diseño UX y hoy tengo mi primer cliente freelance."</blockquote>
+          <div class="test-author">
+            <div class="test-avatar" id="testAv" style="background:linear-gradient(135deg,#F6680E,#170071)">S</div>
+            <div>
+              <div class="test-author-name" id="testName">Sofía Ramírez, 19 años</div>
+              <div class="test-author-info">Buenos Aires · <em id="testHighlight">Diseño UX · Freelancer</em></div>
+            </div>
+          </div>
+        </div>
+        <div class="test-dots" id="testDots"></div>
+        <div class="test-avatars-row" id="testAvatars"></div>
+        <div class="test-stat-grid reveal">
+          <div class="test-stat"><span class="test-stat-icon">👥</span><div class="test-stat-val">500+</div><div class="test-stat-lbl">Jóvenes activos</div></div>
+          <div class="test-stat"><span class="test-stat-icon">⭐</span><div class="test-stat-val">4.9</div><div class="test-stat-lbl">Puntuación media</div></div>
+          <div class="test-stat"><span class="test-stat-icon">💚</span><div class="test-stat-val">98%</div><div class="test-stat-lbl">Recomendarían</div></div>
+          <div class="test-stat"><span class="test-stat-icon">🎓</span><div class="test-stat-val">80+</div><div class="test-stat-lbl">Talleres realizados</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── CTA ──────────────────────────────── -->
+  <div class="section-wrapper cta-wrapper">
+    <div class="cta-radial"></div>
+    <div class="cta-ring" style="width:300px;height:300px;animation:ping 3s ease-in-out infinite"></div>
+    <div class="cta-ring" style="width:500px;height:500px;animation:ping 3s 0.8s ease-in-out infinite"></div>
+    <div class="cta-ring" style="width:700px;height:700px;animation:ping 3s 1.6s ease-in-out infinite"></div>
+    <div class="section">
+      <div class="cta-content">
+        <div class="cta-badge reveal"><span class="cta-badge-dot"></span><span>Únete hoy · Completamente gratis</span></div>
+        <h2 class="cta-title reveal" style="transition-delay:.1s">Tu potencial<br>no puede<br><em>esperar más</em></h2>
+        <p class="cta-sub reveal" style="transition-delay:.2s">Cientos de jóvenes ya están descubriendo quiénes son y hacia dónde van. El próximo capítulo de tu historia empieza con un clic.</p>
+        <div class="cta-btns reveal" style="transition-delay:.3s">
+          <button class="btn-cta-main" onclick="enterApp()">Comenzar mi aventura →</button>
+          <button class="btn-cta-sec" onclick="enterApp()">Ver la demo primero</button>
+        </div>
+        <div class="cta-perks reveal" style="transition-delay:.4s">
+          <span class="cta-perk">✓ Sin tarjeta de crédito</span>
+          <span class="cta-perk">✓ Cancela cuando quieras</span>
+          <span class="cta-perk">✓ Datos protegidos</span>
+          <span class="cta-perk">✓ Soporte 24/7</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── FOOTER ────────────────────────────── -->
+  <footer class="footer-wrapper">
+    <div class="footer-glow-line"></div>
+    <div class="section" style="padding-top:60px">
+      <div class="footer-main">
+        <div class="footer-brand">
+          <div class="logo-wrap" style="margin-bottom:16px" onclick="scrollToTop()">
+            <div class="logo-icon">D</div>
+            <div class="logo-text">Descubre tu <span>Potencial</span></div>
+          </div>
+          <p>La plataforma de autoconocimiento y descubrimiento vocacional para jóvenes de 15 a 25 años.</p>
+          <div class="footer-socials">
+            <button class="footer-social">📷</button>
+            <button class="footer-social">🎵</button>
+            <button class="footer-social">💼</button>
+            <button class="footer-social">🐦</button>
+            <button class="footer-social">▶️</button>
+          </div>
+        </div>
+        <div class="footer-col"><div class="footer-col-title">Plataforma</div><ul><li><button>Mi Usuario</button></li><li><button>Noticias</button></li><li><button>Agenda</button></li><li><button>Comunidad</button></li><li><button>Talleres</button></li></ul></div>
+        <div class="footer-col"><div class="footer-col-title">Empresa</div><ul><li><button>Quiénes somos</button></li><li><button>Blog</button></li><li><button>Carreras</button></li><li><button>Prensa</button></li><li><button>Contacto</button></li></ul></div>
+        <div class="footer-col"><div class="footer-col-title">Recursos</div><ul><li><button>Documentación</button></li><li><button>Tutoriales</button></li><li><button>FAQ</button></li><li><button>Soporte</button></li></ul></div>
+        <div class="footer-col"><div class="footer-col-title">Legal</div><ul><li><button>Privacidad</button></li><li><button>Términos</button></li><li><button>Cookies</button></li><li><button>Accesibilidad</button></li></ul></div>
+      </div>
+      <div class="footer-newsletter">
+        <div class="footer-newsletter-inner">
+          <div class="footer-newsletter-text"><h4>Recibe contenido que inspira 📬</h4><p>Tips semanales, talleres nuevos y recursos exclusivos.</p></div>
+          <div class="footer-newsletter-form">
+            <input type="email" placeholder="tu@email.com" />
+            <button>Suscribirme</button>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2026 Descubre tu Potencial. Todos los derechos reservados.</p>
+        <span>Hecho con ♥ para jóvenes de Latinoamérica</span>
+        <button class="footer-enter-btn" onclick="enterApp()">Entrar a la plataforma →</button>
+      </div>
+    </div>
+  </footer>
+</div><!-- /landing -->
+
+<!-- ═══════════════════════════════════════════ -->
+<!--                   APP                      -->
+<!-- ═══════════════════════════════════════════ -->
+<div id="app" style="display:none">
+  <div class="app-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="sidebar-logo">
+        <div class="sidebar-logo-text">Descubre tu<br><span>Potencial</span></div>
+        <div class="sidebar-logo-sub">Tu viaje comienza aquí</div>
+      </div>
+      <nav class="sidebar-nav" id="sidebarNav">
+        <button class="sidebar-nav-item active" onclick="setPage('inicio',this)">
+          <span class="sidebar-nav-icon">🏠</span> Mi Usuario
+        </button>
+        <button class="sidebar-nav-item" onclick="setPage('noticias',this)">
+          <span class="sidebar-nav-icon">📰</span> Noticias
+          <span class="sidebar-nav-badge">3</span>
+        </button>
+        <button class="sidebar-nav-item" onclick="setPage('agenda',this)">
+          <span class="sidebar-nav-icon">📅</span> Agenda
+        </button>
+        <button class="sidebar-nav-item" onclick="setPage('comunidad',this)">
+          <span class="sidebar-nav-icon">💬</span> Comunidad
+          <span class="sidebar-nav-badge">12</span>
+        </button>
+        <button class="sidebar-nav-item" onclick="setPage('talleres',this)">
+          <span class="sidebar-nav-icon">🎓</span> Talleres
+        </button>
+        <div style="flex:1"></div>
+        <button class="sidebar-nav-item">
+          <span class="sidebar-nav-icon">⚙️</span> Configuración
+        </button>
+        <button class="sidebar-nav-item" onclick="goLanding()">
+          <span class="sidebar-nav-icon">🌐</span> Ver Landing
+        </button>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="sidebar-user">
+          <div class="sidebar-user-av">S</div>
+          <div>
+            <div class="sidebar-user-name">Sofía Ramírez</div>
+            <div class="sidebar-user-role">Exploradora · Nivel 4</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN -->
+    <div class="main-area">
+      <header class="topbar">
+        <div>
+          <div class="topbar-title" id="topbarTitle">Mi Panel</div>
+          <div class="topbar-date" id="topbarDate"></div>
+        </div>
+        <div class="topbar-right">
+          <div class="topbar-chip">2 talleres nuevos</div>
+          <div class="topbar-pts">🔥 1,240 pts</div>
+          <button class="topbar-notif">🔔<div class="topbar-notif-dot"></div></button>
+        </div>
+      </header>
+
+      <div class="page-area">
+        <div class="page-bg"></div>
+
+        <!-- ── INICIO ── -->
+        <div id="page-inicio" class="page-content">
+          <!-- Greeting -->
+          <div style="margin-bottom:28px">
+            <h2 class="greeting-h">Hola, <em>Sofía</em> 👋</h2>
+            <div class="quote-box">
+              "El único límite de tu mente es lo que decides creer. Hoy es un nuevo capítulo."
+              <span class="quote-author">— Frase del día</span>
+            </div>
+          </div>
+          <!-- Tabs -->
+          <div class="tab-row">
+            <button class="tab-btn active" onclick="setTab(this)">Resumen</button>
+            <button class="tab-btn" onclick="setTab(this)">Esta semana</button>
+            <button class="tab-btn" onclick="setTab(this)">Logros</button>
+          </div>
+          <!-- Grid -->
+          <div class="db-grid">
+            <!-- Progress -->
+            <div class="card col-2">
+              <div style="position:absolute;top:-40px;right:-40px;width:180px;height:180px;border-radius:50%;background:radial-gradient(circle,rgba(246,104,14,.1),transparent);pointer-events:none"></div>
+              <div class="card-label">Progreso General</div>
+              <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px">
+                <div>
+                  <div class="prog-number">68<span>%</span></div>
+                  <div style="font-size:12px;color:rgba(239,239,239,.5);margin-top:3px">de tu perfil completado</div>
+                </div>
+                <span class="prog-pill">+12% este mes ↑</span>
+              </div>
+              <div class="prog-track"><div class="prog-fill"></div></div>
+              <div class="mini-stats-grid">
+                <div class="mini-stat"><div class="mini-stat-val" style="color:var(--flame)">5</div><div class="mini-stat-lbl">Talleres completados</div></div>
+                <div class="mini-stat"><div class="mini-stat-val" style="color:#5ddf5d">3</div><div class="mini-stat-lbl">Metas activas</div></div>
+                <div class="mini-stat"><div class="mini-stat-val" style="color:#90c8ff">12</div><div class="mini-stat-lbl">Conexiones</div></div>
+              </div>
+            </div>
+            <!-- Streak -->
+            <div class="card streak-card">
+              <div class="card-label">Mi Racha</div>
+              <div style="font-size:48px;margin-bottom:6px">🔥</div>
+              <div class="streak-num">14</div>
+              <div style="font-size:12px;color:rgba(239,239,239,.45)">días consecutivos</div>
+              <div class="streak-dots">
+                <div class="streak-dot done">L</div><div class="streak-dot done">M</div><div class="streak-dot done">X</div><div class="streak-dot done">J</div><div class="streak-dot done">V</div><div class="streak-dot today">S</div><div class="streak-dot empty">D</div>
+              </div>
+            </div>
+            <!-- Metas -->
+            <div class="card">
+              <div class="sh"><h3>Metas Activas</h3><button class="see-all">Ver todas →</button></div>
+              <div class="meta-item">
+                <div class="meta-icon" style="background:rgba(246,104,14,.15)">🎨</div>
+                <div style="flex:1;min-width:0">
+                  <div style="font-size:13px;font-weight:600;color:#fff">Portafolio de Diseño</div>
+                  <div style="font-size:11px;color:rgba(239,239,239,.4);margin-top:1px">3 de 5 proyectos listos</div>
+                  <div class="meta-bar"><div class="meta-bar-fill" style="width:60%"></div></div>
+                </div>
+                <div class="meta-pct">60%</div>
+              </div>
+              <div class="meta-item">
+                <div class="meta-icon" style="background:rgba(34,139,34,.15)">📚</div>
+                <div style="flex:1;min-width:0">
+                  <div style="font-size:13px;font-weight:600;color:#fff">Aprender Fotografía</div>
+                  <div style="font-size:11px;color:rgba(239,239,239,.4);margin-top:1px">4 módulos completados</div>
+                  <div class="meta-bar"><div class="meta-bar-fill" style="width:80%"></div></div>
+                </div>
+                <div class="meta-pct">80%</div>
+              </div>
+              <div class="meta-item" style="border:none">
+                <div class="meta-icon" style="background:rgba(32,83,117,.35)">🚀</div>
+                <div style="flex:1;min-width:0">
+                  <div style="font-size:13px;font-weight:600;color:#fff">Emprendimiento</div>
+                  <div style="font-size:11px;color:rgba(239,239,239,.4);margin-top:1px">Fase de investigación</div>
+                  <div class="meta-bar"><div class="meta-bar-fill" style="width:25%"></div></div>
+                </div>
+                <div class="meta-pct">25%</div>
+              </div>
+            </div>
+            <!-- Workshops -->
+            <div class="card col-2">
+              <div class="sh"><h3>Próximos Talleres</h3><button class="see-all">Ver calendario →</button></div>
+              <div style="display:flex;flex-direction:column;gap:8px">
+                <div class="workshop-item">
+                  <div class="workshop-date"><div class="workshop-day">24</div><div class="workshop-month">Feb</div></div>
+                  <div style="flex:1;min-width:0"><div class="workshop-name">Introducción al Diseño UX/UI</div><div class="workshop-sub">Camila Torres · 18:00 hs · Virtual</div></div>
+                  <div class="workshop-btns"><span class="tag tag-violet">Diseño</span><button class="enroll-btn" onclick="toggleEnroll(this)">Inscribirme</button></div>
+                </div>
+                <div class="workshop-item">
+                  <div class="workshop-date"><div class="workshop-day">27</div><div class="workshop-month">Feb</div></div>
+                  <div style="flex:1;min-width:0"><div class="workshop-name">Ciencia de Datos para Jóvenes</div><div class="workshop-sub">Dr. Miguel Ríos · 17:00 hs · Presencial</div></div>
+                  <div class="workshop-btns"><span class="tag tag-blue">Ciencia</span><button class="enroll-btn" onclick="toggleEnroll(this)">Inscribirme</button></div>
+                </div>
+                <div class="workshop-item">
+                  <div class="workshop-date"><div class="workshop-day">03</div><div class="workshop-month">Mar</div></div>
+                  <div style="flex:1;min-width:0"><div class="workshop-name">Fotografía Callejera Express</div><div class="workshop-sub">Ana Belén Mora · 10:00 hs · Presencial</div></div>
+                  <div class="workshop-btns"><span class="tag tag-orange">Arte</span><button class="enroll-btn" onclick="toggleEnroll(this)">Inscribirme</button></div>
+                </div>
+              </div>
+            </div>
+            <!-- Retos -->
+            <div class="card col-2">
+              <div class="sh"><h3>Retos del Día</h3><span style="font-family:'Space Mono',monospace;font-size:9px;color:var(--flame)" id="retoPts">+150 pts disponibles</span></div>
+              <div class="retos-grid">
+                <button class="reto-item done" onclick="toggleReto(this)"><div class="reto-check checked">✓</div><span class="reto-emoji">📖</span><div class="reto-title">Leer 15 min de contenido</div><div class="reto-pts">+30 pts · ¡Completado!</div></button>
+                <button class="reto-item" onclick="toggleReto(this)"><div class="reto-check"></div><span class="reto-emoji">🎯</span><div class="reto-title">Responder test vocacional</div><div class="reto-pts">+50 pts</div></button>
+                <button class="reto-item" onclick="toggleReto(this)"><div class="reto-check"></div><span class="reto-emoji">💬</span><div class="reto-title">Participar en comunidad</div><div class="reto-pts">+20 pts</div></button>
+                <button class="reto-item" onclick="toggleReto(this)"><div class="reto-check"></div><span class="reto-emoji">🎨</span><div class="reto-title">Subir proyecto al portafolio</div><div class="reto-pts">+40 pts</div></button>
+                <button class="reto-item" onclick="toggleReto(this)"><div class="reto-check"></div><span class="reto-emoji">🧘</span><div class="reto-title">Reflexión del día</div><div class="reto-pts">+15 pts</div></button>
+                <button class="reto-item" onclick="toggleReto(this)"><div class="reto-check"></div><span class="reto-emoji">🤝</span><div class="reto-title">Conectar con un compañero</div><div class="reto-pts">+25 pts</div></button>
+              </div>
+            </div>
+            <!-- Tests -->
+            <div class="card" style="background:linear-gradient(135deg,rgba(34,139,34,.18),rgba(17,93,51,.28));border-color:rgba(34,139,34,.3)">
+              <h3 style="font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:#fff;margin-bottom:14px">Tests Rápidos</h3>
+              <div class="test-list">
+                <button class="test-btn"><span style="font-size:18px">🧠</span><div><div class="test-btn-title">Vocacional completo</div><div class="test-btn-sub">~15 min · 45 preguntas</div></div><span class="test-arrow">›</span></button>
+                <button class="test-btn"><span style="font-size:18px">✨</span><div><div class="test-btn-title">Fortalezas personales</div><div class="test-btn-sub">~8 min · 24 preguntas</div></div><span class="test-arrow">›</span></button>
+                <button class="test-btn"><span style="font-size:18px">🎯</span><div><div class="test-btn-title">Estilo de aprendizaje</div><div class="test-btn-sub">~5 min · 16 preguntas</div></div><span class="test-arrow">›</span></button>
+                <button class="test-btn"><span style="font-size:18px">💡</span><div><div class="test-btn-title">Test de inteligencias</div><div class="test-btn-sub">~10 min · 32 preguntas</div></div><span class="test-arrow">›</span></button>
+              </div>
+            </div>
+          </div>
+        </div><!-- /inicio -->
+
+        <!-- ── NOTICIAS ── -->
+        <div id="page-noticias" class="page-content" style="display:none">
+          <h2 style="font-family:'Playfair Display',serif;font-size:32px;font-weight:900;color:#fff;margin-bottom:6px">Contenido para <em style="color:var(--flame)">ti</em></h2>
+          <p style="font-size:13px;color:rgba(239,239,239,.5);margin-bottom:24px">Personalizado según tus intereses en Diseño y Arte</p>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:28px">
+            <button class="filter-btn active" onclick="filterNews(this,'Todos')">Todo</button>
+            <button class="filter-btn" onclick="filterNews(this,'Artículo')">Artículos</button>
+            <button class="filter-btn" onclick="filterNews(this,'Video')">Videos</button>
+            <button class="filter-btn" onclick="filterNews(this,'Podcast')">Podcasts</button>
+          </div>
+          <div class="news-grid" id="newsGrid">
+            <div class="news-card" data-type="Artículo"><div class="news-type">📰 Artículo</div><div class="news-title">Cómo el diseño UX está transformando la educación en Latinoamérica</div><div class="news-excerpt">Cada vez más jóvenes apuestan por carreras creativas que fusionan tecnología y diseño...</div><div class="news-footer"><span class="tag tag-violet">Diseño</span><span class="news-time">Hace 2h · 4 min</span></div></div>
+            <div class="news-card" data-type="Video"><div class="news-type">🎬 Video</div><div class="news-title">5 tips para armar tu portafolio sin experiencia previa</div><div class="news-excerpt">Una guía rápida de 3 minutos para dar tus primeros pasos en el mundo creativo...</div><div class="news-footer"><span class="tag tag-orange">Arte</span><span class="news-time">Hace 5h · 3 min</span></div></div>
+            <div class="news-card" data-type="Podcast"><div class="news-type">🎙️ Podcast</div><div class="news-title">De la duda a la vocación — entrevista con Camila Torres</div><div class="news-excerpt">Cómo una diseñadora de 24 años encontró su camino y hoy lidera talleres para jóvenes...</div><div class="news-footer"><span class="tag tag-blue">Inspiración</span><span class="news-time">Ayer · 12 min</span></div></div>
+            <div class="news-card" data-type="Artículo"><div class="news-type">✍️ Mini Blog</div><div class="news-title">10 carreras del futuro que no existían hace 10 años</div><div class="news-excerpt">El mundo laboral cambia más rápido que nunca. ¿Estás preparado para las oportunidades?</div><div class="news-footer"><span class="tag tag-green">Liderazgo</span><span class="news-time">Hace 1d · 6 min</span></div></div>
+            <div class="news-card" data-type="Video"><div class="news-type">🎬 Video</div><div class="news-title">Cómo hacer networking siendo introvertido</div><div class="news-excerpt">La conexión genuina no requiere ser extrovertido. Te mostramos cómo construir tu red...</div><div class="news-footer"><span class="tag tag-green">Liderazgo</span><span class="news-time">Hace 2d · 8 min</span></div></div>
+            <div class="news-card" data-type="Artículo"><div class="news-type">📰 Artículo</div><div class="news-title">STEM y creatividad: la combinación perfecta para el siglo XXI</div><div class="news-excerpt">Los profesionales más exitosos combinan habilidades técnicas con pensamiento creativo...</div><div class="news-footer"><span class="tag tag-blue">Ciencia</span><span class="news-time">Hace 3d · 5 min</span></div></div>
+          </div>
+        </div><!-- /noticias -->
+
+        <!-- ── AGENDA ── -->
+        <div id="page-agenda" class="page-content" style="display:none">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:24px;flex-wrap:wrap;gap:12px">
+            <div><h2 style="font-family:'Playfair Display',serif;font-size:32px;font-weight:900;color:#fff">Mi <em style="color:var(--flame)">Agenda</em></h2><p style="font-size:13px;color:rgba(239,239,239,.5);margin-top:4px">Organiza tu tiempo, domina tu potencial</p></div>
+            <button id="focusBtn" onclick="toggleFocus()" style="padding:10px 18px;border-radius:12px;border:1px solid rgba(255,255,255,.15);background:rgba(255,255,255,.04);font-size:13px;font-weight:500;color:rgba(239,239,239,.6);transition:all .2s">🎯 Modo Enfoque</button>
+          </div>
+          <div id="focusBanner" style="display:none;border-radius:16px;padding:18px 24px;border:1px solid rgba(23,0,113,.5);background:linear-gradient(135deg,rgba(23,0,113,.5),rgba(17,40,60,.6));margin-bottom:20px">
+            <p style="font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:#fff">🎯 Modo Enfoque Activado</p>
+            <p style="font-size:13px;color:rgba(239,239,239,.6);margin-top:4px">Las distracciones están bloqueadas. ¡Concéntrate en tus tareas!</p>
+          </div>
+          <div class="db-grid">
+            <!-- Calendar -->
+            <div class="card col-2">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+                <h3 style="font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:#fff" id="calMonthLabel">Febrero 2026</h3>
+                <div style="display:flex;gap:6px">
+                  <button onclick="calNav(-1)" style="width:30px;height:30px;border-radius:8px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);color:#fff;font-size:14px;transition:background .2s">‹</button>
+                  <button onclick="calNav(1)" style="width:30px;height:30px;border-radius:8px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);color:#fff;font-size:14px;transition:background .2s">›</button>
+                </div>
+              </div>
+              <div class="calendar-grid" id="calGrid"></div>
+              <div style="display:flex;gap:16px;margin-top:16px;padding-top:16px;border-top:1px solid rgba(255,255,255,.07)">
+                <div style="display:flex;align-items:center;gap:6px"><span style="width:8px;height:8px;border-radius:50%;background:rgba(23,0,113,.7);display:block"></span><span style="font-family:'Space Mono',monospace;font-size:9px;color:rgba(239,239,239,.35)">Taller</span></div>
+                <div style="display:flex;align-items:center;gap:6px"><span style="width:8px;height:8px;border-radius:50%;background:var(--flame);display:block"></span><span style="font-family:'Space Mono',monospace;font-size:9px;color:rgba(239,239,239,.35)">Práctica</span></div>
+                <div style="display:flex;align-items:center;gap:6px"><span style="width:8px;height:8px;border-radius:50%;background:rgba(34,139,34,.7);display:block"></span><span style="font-family:'Space Mono',monospace;font-size:9px;color:rgba(239,239,239,.35)">Personal</span></div>
+              </div>
+            </div>
+            <!-- Checklist -->
+            <div class="card" style="background:linear-gradient(135deg,rgba(17,93,51,.22),rgba(34,139,34,.12));border-color:rgba(34,139,34,.25)">
+              <h3 style="font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:#fff;margin-bottom:14px">Checklist del Día</h3>
+              <div class="checklist" id="checklist">
+                <button class="checklist-item done" onclick="toggleCheck(this)"><div class="checklist-circle checked">✓</div><span class="checklist-text">Revisar apuntes de fotografía</span></button>
+                <button class="checklist-item" onclick="toggleCheck(this)"><div class="checklist-circle"></div><span class="checklist-text">Completar ejercicio de diseño UX</span></button>
+                <button class="checklist-item" onclick="toggleCheck(this)"><div class="checklist-circle"></div><span class="checklist-text">Escribir reflexión del día</span></button>
+                <button class="checklist-item" onclick="toggleCheck(this)"><div class="checklist-circle"></div><span class="checklist-text">Ver video de emprendimiento</span></button>
+              </div>
+              <div class="add-task-form" style="margin-top:12px">
+                <input class="add-task-input" id="taskInput" placeholder="Nueva tarea..." />
+                <button class="add-task-btn" onclick="addTask()">+</button>
+              </div>
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px;padding-top:10px;border-top:1px solid rgba(255,255,255,.07)">
+                <span style="font-family:'Space Mono',monospace;font-size:9px;color:rgba(239,239,239,.35)" id="checkCount">1/4 completadas</span>
+                <div style="height:4px;width:80px;background:rgba(255,255,255,.08);border-radius:4px;overflow:hidden"><div id="checkBar" style="height:100%;background:var(--emerald);border-radius:4px;width:25%;transition:width .3s"></div></div>
+              </div>
+            </div>
+            <!-- Events -->
+            <div class="card col-2">
+              <div class="sh"><h3>Próximos Eventos</h3></div>
+              <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px">
+                <div style="padding:12px;border-radius:12px;border:1px solid rgba(23,0,113,.5);background:rgba(23,0,113,.15);display:flex;gap:10px;align-items:center"><div><div style="font-family:'Space Mono',monospace;font-size:9px;color:rgba(239,239,239,.35)">24 Feb</div><div style="font-family:'Playfair Display',serif;font-size:16px;font-weight:700;color:#fff">18:00</div></div><div><div style="font-size:11px;font-weight:600;color:#fff">Taller UX/UI</div><div style="font-family:'Space Mono',monospace;font-size:8px;color:rgba(239,239,239,.35);margin-top:1px;text-transform:uppercase">Taller</div></div></div>
+                <div style="padding:12px;border-radius:12px;border:1px solid rgba(246,104,14,.4);background:rgba(246,104,14,.1);display:flex;gap:10px;align-items:center"><div><div style="font-family:'Space Mono',monospace;font-size:9px;color:rgba(239,239,239,.35)">25 Feb</div><div style="font-family:'Playfair Display',serif;font-size:16px;font-weight:700;color:#fff">10:00</div></div><div><div style="font-size:11px;font-weight:600;color:#fff">Fotografía práctica</div><div style="font-family:'Space Mono',monospace;font-size:8px;color:rgba(239,239,239,.35);margin-top:1px;text-transform:uppercase">Práctica</div></div></div>
+                <div style="padding:12px;border-radius:12px;border:1px solid rgba(32,83,117,.5);background:rgba(32,83,117,.2);display:flex;gap:10px;align-items:center"><div><div style="font-family:'Space Mono',monospace;font-size:9px;color:rgba(239,239,239,.35)">27 Feb</div><div style="font-family:'Playfair Display',serif;font-size:16px;font-weight:700;color:#fff">17:00</div></div><div><div style="font-size:11px;font-weight:600;color:#fff">Ciencia de Datos</div><div style="font-family:'Space Mono',monospace;font-size:8px;color:rgba(239,239,239,.35);margin-top:1px;text-transform:uppercase">Taller</div></div></div>
+              </div>
+            </div>
+          </div>
+        </div><!-- /agenda -->
+
+        <!-- ── COMUNIDAD ── -->
+        <div id="page-comunidad" class="page-content" style="display:none">
+          <h2 style="font-family:'Playfair Display',serif;font-size:32px;font-weight:900;color:#fff;margin-bottom:6px">Tu <em style="color:var(--flame)">Comunidad</em></h2>
+          <p style="font-size:13px;color:rgba(239,239,239,.5);margin-bottom:24px">Conecta, aprende y crece junto a otros</p>
+          <div style="display:grid;grid-template-columns:1fr 300px;gap:20px">
+            <div>
+              <div class="compose-area">
+                <textarea class="compose-textarea" rows="3" placeholder="Comparte algo con la comunidad... 💬" id="composeText"></textarea>
+                <div class="compose-footer">
+                  <div style="display:flex;gap:12px">
+                    <span style="font-size:18px;opacity:.4;cursor:pointer">🖼️</span>
+                    <span style="font-size:18px;opacity:.4;cursor:pointer">😊</span>
+                  </div>
+                  <button class="enroll-btn" onclick="addPost()">Publicar</button>
+                </div>
+              </div>
+              <div id="postFeed">
+                <div class="post-card"><div class="post-author"><div class="post-av">M</div><div><div class="post-name">Martín V.</div></div><span class="tag tag-orange" style="margin-left:8px">Logro</span><span class="post-time">Hace 10 min</span></div><div class="post-text">¡Terminé mi primer proyecto de diseño! 🎉 ¿Alguien me da feedback?</div><div class="post-actions"><button class="post-action" onclick="toggleLike(this)">🤍 12</button><button class="post-action">💬 4</button><button class="post-action" style="margin-left:auto">Compartir ↗</button></div></div>
+                <div class="post-card"><div class="post-author"><div class="post-av">L</div><div><div class="post-name">Lucía P.</div></div><span class="tag tag-blue" style="margin-left:8px">Pregunta</span><span class="post-time">Hace 1h</span></div><div class="post-text">¿Alguien más va al taller de fotografía del 3 de marzo? ¿Hacemos grupo?</div><div class="post-actions"><button class="post-action" onclick="toggleLike(this)">🤍 8</button><button class="post-action">💬 7</button><button class="post-action" style="margin-left:auto">Compartir ↗</button></div></div>
+                <div class="post-card"><div class="post-author"><div class="post-av">A</div><div><div class="post-name">Andrés F.</div></div><span class="tag tag-green" style="margin-left:8px">Recomendación</span><span class="post-time">Hace 3h</span></div><div class="post-text">Recomiendo mucho el test de inteligencias múltiples. Me ayudó a entender mis fortalezas 💡</div><div class="post-actions"><button class="post-action" onclick="toggleLike(this)">🤍 21</button><button class="post-action">💬 3</button><button class="post-action" style="margin-left:auto">Compartir ↗</button></div></div>
+              </div>
+            </div>
+            <div>
+              <div class="card" style="margin-bottom:16px">
+                <h3 style="font-family:'Playfair Display',serif;font-size:15px;font-weight:700;color:#fff;margin-bottom:12px">Grupos de Interés</h3>
+                <button class="group-btn active"><span class="group-icon">🎨</span><div><div class="group-name">Diseño & Creatividad</div><div class="group-members">234 miembros</div></div></button>
+                <button class="group-btn" onclick="this.classList.toggle('active')"><span class="group-icon">🧪</span><div><div class="group-name">Ciencia & STEM</div><div class="group-members">178 miembros</div></div></button>
+                <button class="group-btn" onclick="this.classList.toggle('active')"><span class="group-icon">🚀</span><div><div class="group-name">Emprendimiento</div><div class="group-members">312 miembros</div></div></button>
+                <button class="group-btn" onclick="this.classList.toggle('active')"><span class="group-icon">📷</span><div><div class="group-name">Fotografía</div><div class="group-members">95 miembros</div></div></button>
+              </div>
+              <div class="card" style="background:linear-gradient(135deg,rgba(23,0,113,.35),rgba(32,83,117,.35));border-color:rgba(23,0,113,.4)">
+                <h3 style="font-family:'Playfair Display',serif;font-size:15px;font-weight:700;color:#fff;margin-bottom:12px">Retos Colectivos</h3>
+                <div style="display:flex;flex-direction:column;gap:10px">
+                  <div style="padding:12px;border-radius:12px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08)"><div style="display:flex;gap:8px;margin-bottom:8px"><span style="font-size:18px">🖼️</span><p style="font-size:12px;font-weight:600;color:#fff">Comparte tu primer diseño</p></div><div style="display:flex;justify-content:space-between;margin-bottom:8px"><span style="font-family:'Space Mono',monospace;font-size:9px;color:rgba(239,239,239,.35)">47 participantes</span><span style="font-family:'Space Mono',monospace;font-size:10px;font-weight:700;color:var(--flame)">+100 pts</span></div><button style="width:100%;padding:6px;border-radius:8px;border:1px solid rgba(246,104,14,.4);color:var(--flame);font-size:11px;font-weight:500;transition:all .2s" onmouseover="this.style.background='rgba(246,104,14,.12)'" onmouseout="this.style.background='none'">Unirme</button></div>
+                  <div style="padding:12px;border-radius:12px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08)"><div style="display:flex;gap:8px;margin-bottom:8px"><span style="font-size:18px">🌱</span><p style="font-size:12px;font-weight:600;color:#fff">30 días de reflexión personal</p></div><div style="display:flex;justify-content:space-between;margin-bottom:8px"><span style="font-family:'Space Mono',monospace;font-size:9px;color:rgba(239,239,239,.35)">82 participantes</span><span style="font-family:'Space Mono',monospace;font-size:10px;font-weight:700;color:var(--flame)">+200 pts</span></div><button style="width:100%;padding:6px;border-radius:8px;border:1px solid rgba(246,104,14,.4);color:var(--flame);font-size:11px;font-weight:500;transition:all .2s" onmouseover="this.style.background='rgba(246,104,14,.12)'" onmouseout="this.style.background='none'">Unirme</button></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div><!-- /comunidad -->
+
+        <!-- ── TALLERES ── -->
+        <div id="page-talleres" class="page-content" style="display:none">
+          <h2 style="font-family:'Playfair Display',serif;font-size:32px;font-weight:900;color:#fff;margin-bottom:6px">Talleres & <em style="color:var(--flame)">Workshops</em></h2>
+          <p style="font-size:13px;color:rgba(239,239,239,.5);margin-bottom:20px">Aprende de expertos con años de experiencia en tu área</p>
+          <!-- Featured -->
+          <div class="card" style="background:linear-gradient(135deg,rgba(246,104,14,.15),rgba(23,0,113,.3));border-color:rgba(246,104,14,.3);margin-bottom:24px">
+            <div style="display:flex;gap:24px;align-items:start;flex-wrap:wrap">
+              <div style="width:100%;max-width:180px;height:120px;border-radius:16px;background:rgba(246,104,14,.1);display:flex;align-items:center;justify-content:center;font-size:60px;flex-shrink:0">🎨</div>
+              <div style="flex:1;min-width:200px">
+                <span style="font-family:'Space Mono',monospace;font-size:8px;text-transform:uppercase;letter-spacing:2px;color:var(--flame);display:block;margin-bottom:8px">✦ Recomendado para ti</span>
+                <h3 style="font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:#fff;margin-bottom:10px">Introducción al Diseño UX/UI</h3>
+                <p style="font-size:13px;color:rgba(239,239,239,.55);line-height:1.6;margin-bottom:16px">Aprende los fundamentos del diseño de experiencias de usuario con Camila Torres. Taller 100% práctico con proyectos reales.</p>
+                <div style="display:flex;gap:16px;flex-wrap:wrap;font-family:'Space Mono',monospace;font-size:10px;color:rgba(239,239,239,.45);margin-bottom:16px">
+                  <span>📅 24 Feb · 18:00 hs</span><span>💻 Virtual</span><span>⭐ 4.9 (142 reseñas)</span>
+                </div>
+                <div style="display:flex;gap:10px;flex-wrap:wrap">
+                  <button class="enroll-btn" style="padding:10px 24px;font-size:13px" onclick="toggleEnroll(this)">Inscribirme gratis</button>
+                  <button style="padding:10px 24px;border-radius:10px;border:1px solid rgba(255,255,255,.15);font-size:13px;color:rgba(239,239,239,.6);font-weight:500;transition:all .2s" onmouseover="this.style.borderColor='rgba(255,255,255,.3)'" onmouseout="this.style.borderColor='rgba(255,255,255,.15)'">Ver detalles</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Grid -->
+          <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-bottom:32px">
+            <div class="taller-card"><div class="taller-header"><div class="taller-date-box"><div class="taller-day">27</div><div class="taller-month">Feb</div></div><div style="flex:1"><div class="taller-title">Ciencia de Datos para Jóvenes</div><div class="taller-tutor">Con Dr. Miguel Ríos</div></div><span class="tag tag-blue">Ciencia</span></div><div class="taller-meta"><span>🕐 17:00 hs</span><span>📍 Presencial</span><span>⭐ 4.7</span><span>89 alumnos</span></div><div class="taller-footer"><button class="enroll-btn" style="flex:1" onclick="toggleEnroll(this)">Inscribirme</button></div><div class="cert-note">🏆 Incluye certificado digital</div></div>
+            <div class="taller-card"><div class="taller-header"><div class="taller-date-box"><div class="taller-day">03</div><div class="taller-month">Mar</div></div><div style="flex:1"><div class="taller-title">Fotografía Callejera Express</div><div class="taller-tutor">Con Ana Belén Mora</div></div><span class="tag tag-orange">Arte</span></div><div class="taller-meta"><span>🕐 10:00 hs</span><span>📍 Presencial</span><span>⭐ 4.8</span><span>67 alumnos</span></div><div class="taller-footer"><button class="enroll-btn" style="flex:1" onclick="toggleEnroll(this)">Inscribirme</button></div><div class="cert-note">🏆 Incluye certificado digital</div></div>
+            <div class="taller-card"><div class="taller-header"><div class="taller-date-box"><div class="taller-day">10</div><div class="taller-month">Mar</div></div><div style="flex:1"><div class="taller-title">Emprendimiento Juvenil</div><div class="taller-tutor">Con Lucas Pereyra</div></div><span class="tag tag-green">Liderazgo</span></div><div class="taller-meta"><span>🕐 19:00 hs</span><span>💻 Virtual</span><span>⭐ 4.6</span><span>201 alumnos</span></div><div class="taller-footer"><button class="enroll-btn" style="flex:1" onclick="toggleEnroll(this)">Inscribirme</button></div><div class="cert-note">🏆 Incluye certificado digital</div></div>
+            <div class="taller-card"><div class="taller-header"><div class="taller-date-box"><div class="taller-day">18</div><div class="taller-month">Mar</div></div><div style="flex:1"><div class="taller-title">Comunicación y Oratoria</div><div class="taller-tutor">Con Valentina Cruz</div></div><span class="tag tag-violet">Comunicación</span></div><div class="taller-meta"><span>🕐 16:00 hs</span><span>💻 Virtual</span><span>⭐ 4.9</span><span>234 alumnos</span></div><div class="taller-footer"><button class="enroll-btn" style="flex:1" onclick="toggleEnroll(this)">Inscribirme</button></div><div class="cert-note">🏆 Incluye certificado digital</div></div>
+          </div>
+          <!-- Tutors -->
+          <div class="sh"><h3>Nuestros Tutores</h3><button class="see-all">Ver todos →</button></div>
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px">
+            <div class="tutor-card"><div class="tutor-av" style="background:linear-gradient(135deg,#F6680E,#170071)">C</div><div class="tutor-name">Camila Torres</div><div class="tutor-role">Diseñadora UX Senior</div><div class="tutor-exp">8 años de experiencia</div></div>
+            <div class="tutor-card"><div class="tutor-av" style="background:linear-gradient(135deg,#205375,#115D33)">M</div><div class="tutor-name">Dr. Miguel Ríos</div><div class="tutor-role">Data Scientist</div><div class="tutor-exp">12 años de experiencia</div></div>
+            <div class="tutor-card"><div class="tutor-av" style="background:linear-gradient(135deg,#228B22,#205375)">A</div><div class="tutor-name">Ana Belén Mora</div><div class="tutor-role">Fotógrafa Profesional</div><div class="tutor-exp">6 años de experiencia</div></div>
+            <div class="tutor-card"><div class="tutor-av" style="background:linear-gradient(135deg,#170071,#F6680E)">L</div><div class="tutor-name">Lucas Pereyra</div><div class="tutor-role">Emprendedor & Coach</div><div class="tutor-exp">10 años de experiencia</div></div>
+          </div>
+        </div><!-- /talleres -->
+
+      </div><!-- /page-area -->
+    </div><!-- /main-area -->
+  </div><!-- /app-layout -->
+
+  <!-- Mobile nav -->
+  <nav class="mobile-nav">
+    <button class="mobile-nav-btn active" onclick="setPage('inicio',this);setMobileActive(this)">🏠</button>
+    <button class="mobile-nav-btn" onclick="setPage('noticias',this);setMobileActive(this)">📰</button>
+    <button class="mobile-nav-btn" onclick="setPage('agenda',this);setMobileActive(this)">📅</button>
+    <button class="mobile-nav-btn" onclick="setPage('comunidad',this);setMobileActive(this)">💬</button>
+    <button class="mobile-nav-btn" onclick="setPage('talleres',this);setMobileActive(this)">🎓</button>
+  </nav>
+</div><!-- /app -->
+
+<script>
+// ─── LANDING LOGIC ────────────────────────────────────────
+
+// Navbar scroll
+window.addEventListener('scroll', () => {
+  const nav = document.getElementById('lnav');
+  if (nav) nav.classList.toggle('scrolled', window.scrollY > 40);
+});
+
+// Parallax orbs
+window.addEventListener('mousemove', (e) => {
+  const x = e.clientX / window.innerWidth;
+  const y = e.clientY / window.innerHeight;
+  const o1 = document.getElementById('orb1');
+  const o2 = document.getElementById('orb2');
+  const o3 = document.getElementById('orb3');
+  if (o1) o1.style.transform = `translate(${x * -30}px, ${y * -20}px)`;
+  if (o2) o2.style.transform = `translate(${x * 20}px, ${y * 15}px)`;
+  if (o3) o3.style.transform = `translate(${x * -15}px, ${y * 10}px)`;
+});
+
+// Underline path animation on load
+setTimeout(() => {
+  const p = document.getElementById('underlinePath');
+  if (p) p.style.strokeDashoffset = '0';
+}, 900);
+
+function scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
+function scrollTo2(id) {
+  const el = document.getElementById(id);
+  if (el) el.scrollIntoView({ behavior: 'smooth' });
+}
+function toggleMobile() {
+  document.getElementById('mobileMenu').classList.toggle('open');
+}
+
+// ─── SCROLL REVEAL ────────────────────────────────────────
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+}, { threshold: 0.12 });
+
+function initReveal() {
+  document.querySelectorAll('.reveal, .reveal-left').forEach(el => observer.observe(el));
+}
+initReveal();
+
+// ─── PORTFOLIO FILTER ─────────────────────────────────────
+function filterPort(btn, cat) {
+  document.querySelectorAll('#portGrid .port-card').forEach(c => {
+    const show = cat === 'todos' || c.dataset.cat === cat;
+    c.style.display = show ? '' : 'none';
+  });
+  btn.closest('.filters').querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+// ─── TESTIMONIALS ─────────────────────────────────────────
+const testimonials = [
+  { av: 'S', grad: 'linear-gradient(135deg,#F6680E,#170071)', text: '"Entré sin saber qué estudiar. En tres meses descubrí que me apasiona el diseño UX y hoy tengo mi primer cliente freelance."', name: 'Sofía Ramírez, 19 años', city: 'Buenos Aires', highlight: 'Diseño UX · Freelancer', glow: '#F6680E' },
+  { av: 'M', grad: 'linear-gradient(135deg,#205375,#170071)', text: '"El test vocacional fue una revelación. Me ayudó a entender que mis habilidades técnicas y creativas son perfectas para la ciencia de datos."', name: 'Martín Valdivia, 22 años', city: 'Ciudad de México', highlight: 'Ciencia de Datos · Becario', glow: '#170071' },
+  { av: 'L', grad: 'linear-gradient(135deg,#228B22,#205375)', text: '"Gracias a los talleres de oratoria y liderazgo perdí el miedo. Ahora soy presidenta del centro de alumnos."', name: 'Lucía Peralta, 17 años', city: 'Santiago de Chile', highlight: 'Liderazgo · Estudiante', glow: '#228B22' },
+  { av: 'A', grad: 'linear-gradient(135deg,#F6680E,#115D33)', text: '"Lo que empezó como curiosidad se convirtió en hábito. Hoy tengo mi propio emprendimiento de fotografía."', name: 'Andrés Fuentes, 21 años', city: 'Bogotá', highlight: 'Fotografía · Emprendedor', glow: '#F6680E' },
+  { av: 'C', grad: 'linear-gradient(135deg,#170071,#F6680E)', text: '"Empecé como estudiante y hoy soy tutora. El crecimiento fue tan real que decidí devolver lo que recibí."', name: 'Camila Torres, 24 años', city: 'Lima', highlight: 'Tutora UX/UI · Mentora', glow: '#c4b8ff' },
+];
+
+let testIdx = 0;
+
+function buildTestimonials() {
+  const dots = document.getElementById('testDots');
+  const avatars = document.getElementById('testAvatars');
+  if (!dots || !avatars) return;
+  dots.innerHTML = '';
+  avatars.innerHTML = '';
+  testimonials.forEach((t, i) => {
+    const dot = document.createElement('button');
+    dot.className = 'test-dot' + (i === 0 ? ' active' : '');
+    dot.onclick = () => setTest(i);
+    dots.appendChild(dot);
+
+    const av = document.createElement('button');
+    av.className = 'test-av-btn' + (i === 0 ? ' active' : '');
+    av.style.background = t.grad;
+    av.textContent = t.av;
+    av.onclick = () => setTest(i);
+    avatars.appendChild(av);
+  });
+}
+
+function setTest(i) {
+  testIdx = i;
+  const t = testimonials[i];
+  document.getElementById('testText').textContent = t.text;
+  document.getElementById('testName').textContent = t.name;
+  document.getElementById('testHighlight').textContent = t.highlight;
+  const av = document.getElementById('testAv');
+  if (av) { av.textContent = t.av; av.style.background = t.grad; }
+  const glow = document.getElementById('testGlow');
+  if (glow) glow.style.background = `radial-gradient(circle, ${t.glow}18, transparent)`;
+  document.querySelectorAll('.test-dot').forEach((d, j) => d.classList.toggle('active', j === i));
+  document.querySelectorAll('.test-av-btn').forEach((a, j) => a.classList.toggle('active', j === i));
+}
+
+buildTestimonials();
+setInterval(() => setTest((testIdx + 1) % testimonials.length), 5000);
+
+// ─── ENTER APP ────────────────────────────────────────────
+function enterApp() {
+  const landing = document.getElementById('landing');
+  const app = document.getElementById('app');
+  landing.style.opacity = '0';
+  landing.style.transition = 'opacity .5s ease';
+  setTimeout(() => {
+    landing.style.display = 'none';
+    app.style.display = 'block';
+    app.style.opacity = '0';
+    app.style.transition = 'opacity .5s ease';
+    setTimeout(() => { app.style.opacity = '1'; }, 10);
+    setTopbarDate();
+    buildCalendar();
+    updateCheckCount();
+  }, 500);
+}
+
+function goLanding() {
+  const app = document.getElementById('app');
+  const landing = document.getElementById('landing');
+  app.style.opacity = '0';
+  setTimeout(() => {
+    app.style.display = 'none';
+    landing.style.display = 'block';
+    landing.style.opacity = '0';
+    setTimeout(() => { landing.style.opacity = '1'; landing.style.transition = 'opacity .5s ease'; window.scrollTo(0,0); }, 10);
+  }, 500);
+}
+
+// ─── APP LOGIC ────────────────────────────────────────────
+const pageTitles = { inicio: 'Mi Panel', noticias: 'Noticias', agenda: 'Mi Agenda', comunidad: 'Comunidad', talleres: 'Talleres & Workshops' };
+let curPage = 'inicio';
+
+function setPage(page, btn) {
+  document.querySelectorAll('[id^="page-"]').forEach(p => p.style.display = 'none');
+  const el = document.getElementById('page-' + page);
+  if (el) { el.style.display = 'block'; el.style.animation = 'fadeUp .4s ease'; }
+  document.querySelectorAll('.sidebar-nav-item').forEach(b => b.classList.remove('active'));
+  if (btn && btn.classList.contains('sidebar-nav-item')) btn.classList.add('active');
+  document.getElementById('topbarTitle').textContent = pageTitles[page] || page;
+  curPage = page;
+  document.querySelector('.page-area').scrollTop = 0;
+}
+
+function setMobileActive(btn) {
+  document.querySelectorAll('.mobile-nav-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+function setTopbarDate() {
+  const d = new Date();
+  const s = d.toLocaleDateString('es-ES', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
+  const el = document.getElementById('topbarDate');
+  if (el) el.textContent = s.charAt(0).toUpperCase() + s.slice(1);
+}
+
+function setTab(btn) {
+  btn.closest('.tab-row').querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+function toggleEnroll(btn) {
+  const enrolled = btn.classList.toggle('enrolled');
+  btn.textContent = enrolled ? '✓ Inscrito' : 'Inscribirme';
+}
+
+function toggleReto(btn) {
+  const done = btn.classList.toggle('done');
+  const check = btn.querySelector('.reto-check');
+  const pts = btn.querySelector('.reto-pts');
+  check.classList.toggle('checked', done);
+  check.textContent = done ? '✓' : '';
+  if (done) pts.textContent = pts.textContent.replace(' pts', ' pts · ¡Hecho!');
+  else pts.textContent = pts.textContent.replace(' · ¡Hecho!', '');
+}
+
+function toggleLike(btn) {
+  const liked = btn.classList.toggle('liked');
+  const parts = btn.textContent.trim().split(' ');
+  const num = parseInt(parts[1]);
+  btn.textContent = (liked ? '❤️' : '🤍') + ' ' + (liked ? num + 1 : num - 1);
+}
+
+function addPost() {
+  const txt = document.getElementById('composeText').value.trim();
+  if (!txt) return;
+  const feed = document.getElementById('postFeed');
+  const card = document.createElement('div');
+  card.className = 'post-card';
+  card.style.animation = 'fadeUp .4s ease';
+  card.innerHTML = `<div class="post-author"><div class="post-av">S</div><div><div class="post-name">Sofía R.</div></div><span class="tag tag-orange" style="margin-left:8px">Nuevo</span><span class="post-time">Ahora</span></div><div class="post-text">${txt}</div><div class="post-actions"><button class="post-action" onclick="toggleLike(this)">🤍 0</button><button class="post-action">💬 0</button></div>`;
+  feed.prepend(card);
+  document.getElementById('composeText').value = '';
+}
+
+// News filter
+function filterNews(btn, type) {
+  document.querySelectorAll('#newsGrid .news-card').forEach(c => {
+    const show = type === 'Todos' || c.dataset.type === type;
+    c.style.display = show ? '' : 'none';
+  });
+  btn.closest('div').querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+// Calendar
+const MONTHS = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+const DAYS = ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
+const EVENT_DAYS = [24, 25, 27, 1];
+let calYear = 2026, calMonth = 1, calSelected = 22;
+
+function buildCalendar() {
+  const grid = document.getElementById('calGrid');
+  const label = document.getElementById('calMonthLabel');
+  if (!grid || !label) return;
+  label.textContent = `${MONTHS[calMonth]} ${calYear}`;
+  grid.innerHTML = '';
+  DAYS.forEach(d => {
+    const el = document.createElement('div');
+    el.className = 'cal-day-label';
+    el.textContent = d;
+    grid.appendChild(el);
+  });
+  const firstDay = new Date(calYear, calMonth, 1).getDay();
+  const daysInMonth = new Date(calYear, calMonth + 1, 0).getDate();
+  for (let i = 0; i < firstDay; i++) { const el = document.createElement('div'); grid.appendChild(el); }
+  for (let d = 1; d <= daysInMonth; d++) {
+    const el = document.createElement('div');
+    el.className = 'cal-day';
+    el.textContent = d;
+    if (d === calSelected) el.classList.add('selected');
+    if (d === 22 && calMonth === 1 && calYear === 2026) el.classList.add('today');
+    if (EVENT_DAYS.includes(d)) { const dot = document.createElement('div'); dot.className = 'cal-day-dot'; el.appendChild(dot); }
+    el.onclick = () => { calSelected = d; buildCalendar(); };
+    grid.appendChild(el);
+  }
+}
+
+function calNav(dir) {
+  calMonth += dir;
+  if (calMonth > 11) { calMonth = 0; calYear++; }
+  if (calMonth < 0) { calMonth = 11; calYear--; }
+  buildCalendar();
+}
+
+// Checklist
+function toggleCheck(btn) {
+  btn.classList.toggle('done');
+  const circle = btn.querySelector('.checklist-circle');
+  const done = btn.classList.contains('done');
+  circle.classList.toggle('checked', done);
+  circle.textContent = done ? '✓' : '';
+  updateCheckCount();
+}
+
+function addTask() {
+  const inp = document.getElementById('taskInput');
+  const val = inp.value.trim();
+  if (!val) return;
+  const list = document.getElementById('checklist');
+  const btn = document.createElement('button');
+  btn.className = 'checklist-item';
+  btn.onclick = function() { toggleCheck(this); };
+  btn.innerHTML = `<div class="checklist-circle"></div><span class="checklist-text">${val}</span>`;
+  list.appendChild(btn);
+  inp.value = '';
+  updateCheckCount();
+}
+
+function updateCheckCount() {
+  const items = document.querySelectorAll('.checklist-item');
+  const done = document.querySelectorAll('.checklist-item.done');
+  const el = document.getElementById('checkCount');
+  const bar = document.getElementById('checkBar');
+  if (el) el.textContent = `${done.length}/${items.length} completadas`;
+  if (bar && items.length) bar.style.width = `${(done.length / items.length) * 100}%`;
+}
+
+// Focus mode
+let focusOn = false;
+function toggleFocus() {
+  focusOn = !focusOn;
+  const btn = document.getElementById('focusBtn');
+  const banner = document.getElementById('focusBanner');
+  if (btn) { btn.textContent = focusOn ? '🎯 Modo Enfoque ACTIVO' : '🎯 Modo Enfoque'; btn.style.background = focusOn ? 'rgba(23,0,113,.5)' : 'rgba(255,255,255,.04)'; btn.style.borderColor = focusOn ? 'rgba(23,0,113,.6)' : 'rgba(255,255,255,.15)'; btn.style.color = focusOn ? '#fff' : 'rgba(239,239,239,.6)'; }
+  if (banner) banner.style.display = focusOn ? 'block' : 'none';
+}
+
+// Initial date
+setTopbarDate();
+</script>
+</body>
+</html>
